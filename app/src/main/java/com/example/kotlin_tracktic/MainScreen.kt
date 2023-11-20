@@ -1,14 +1,22 @@
 package com.example.kotlin_tracktic
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.*
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Bottom
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(name: String?, navController: NavController) {
     Box(
@@ -16,53 +24,9 @@ fun MainScreen(name: String?, navController: NavController) {
         modifier = Modifier.fillMaxSize()
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = CenterHorizontally
         ) {
             Text(text = "Hello, $name")
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Buttons for navigation
-            Button(
-                onClick = {
-                    navController.navigate(Screen.StatisticScreen.route)
-                }
-            ) {
-                Text(text = "Statistic")
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Button(
-                onClick = {
-                    navController.navigate(Screen.TransactionScreen.route)
-                }
-            ) {
-                Text(text = "Transaction")
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Button(
-                onClick = {
-                    navController.navigate(Screen.NotificationScreen.route)
-                }
-            ) {
-                Text(text = "Notification")
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Button(
-                onClick = {
-                    navController.navigate(Screen.ProfileScreen.route)
-                }
-            ) {
-                Text(text = "Profile")
-            }
+            BottomNavigation(navController = navController)
         }
-    }
-}
-
-
-
+}}

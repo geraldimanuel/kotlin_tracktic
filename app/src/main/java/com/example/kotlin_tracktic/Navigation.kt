@@ -29,6 +29,7 @@ fun Navigation() {
         ){ entry ->
             MainScreen(name = entry.arguments?.getString("name"), navController = navController)
         }
+
         composable(Screen.StatisticScreen.route) {
             StatisticScreen(navController = navController)
         }
@@ -42,5 +43,4 @@ fun Navigation() {
             ProfileScreen(navController = navController)
         }
     }
-
 }
