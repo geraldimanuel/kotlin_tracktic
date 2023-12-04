@@ -37,8 +37,8 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -49,10 +49,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
+import com.example.kotlin_tracktic.util.SharedViewModel
+import com.example.kotlin_tracktic.util.TransactionData
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -60,9 +65,14 @@ import java.util.Locale
 
 
 data class ButtonData(val label: String, val isPressedState: MutableState<Boolean>)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TransactionScreen(navController: NavController, onBackClick: () -> Unit) {
+fun TransactionScreen(
+    navController: NavController,
+    sharedViewModel: SharedViewModel,
+    onBackClick: () -> Unit
+) {
 
     var textFieldValue by remember { mutableStateOf(0) }
     var remarksValue by remember { mutableStateOf("") }
@@ -82,6 +92,8 @@ fun TransactionScreen(navController: NavController, onBackClick: () -> Unit) {
             ButtonData("500,000", mutableStateOf(false))
         )
     }
+
+    val context = LocalContext.current
 
     Box(
         contentAlignment = Alignment.Center,
@@ -379,11 +391,21 @@ fun TransactionScreen(navController: NavController, onBackClick: () -> Unit) {
 
             // Button
             Column(modifier = Modifier.padding(top = 30.dp)) {
-                val context = LocalContext.current
+//                val context = LocalContext.current
 
                 OutlinedButton(
                     onClick = {
-                        Toast.makeText(context, "Submitted!", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(context, "Submitted!", Toast.LENGTH_SHORT).show()
+
+                        val transactionData = TransactionData(
+                            nominal = textFieldValue,
+                            category = "Food",
+                            date = "21/05/2022",
+                            description = remarksValue,
+                            type = "Expense"
+                        )
+
+                        sharedViewModel.saveData(transactionData = transactionData, context = context)
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = com.example.kotlin_tracktic.ui.theme.Red30,
