@@ -12,7 +12,7 @@ fun Navigation() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = Screen.LoginScreen.route,
+        startDestination = Screen.TransactionScreen.route,
 //        modifier = Modifier
     ) {
         composable(Screen.LoginScreen.route) {
@@ -35,7 +35,9 @@ fun Navigation() {
             StatisticScreen(navController = navController)
         }
         composable(Screen.TransactionScreen.route) {
-            TransactionScreen(navController = navController)
+            TransactionScreen(navController = navController) {
+                navController.popBackStack()
+            }
         }
         composable(Screen.NotificationScreen.route) {
             NotificationScreen(navController = navController)
