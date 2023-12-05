@@ -3,11 +3,13 @@ package com.example.kotlin_tracktic
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -52,9 +54,7 @@ fun MainScreen(name: String?, navController: NavController) {
 @Composable
 fun Profile(
     painter: Painter,
-    contentDescription: String,
-    title: String,
-    modifier: Modifier = Modifier
+    contentDescription: String
 ) {
     Box(modifier = Modifier
         .height(100.dp)
@@ -80,11 +80,11 @@ fun Profile(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = title,
+                    text = "Morning",
                     color = Color.Black
                 )
                 Text(
-                    text = title,
+                    text = "Gerald",
                     color = Color.Black
                 )
             }
@@ -121,19 +121,19 @@ fun MoneyCard(
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "Happy Meal",
+                    text = "Expense Total",
                     modifier = Modifier
                         .fillMaxWidth(),
                     color = Color.White
                 )
                 Text(
-                    text = "Happy Meal",
+                    text = "Rp 7,500",
                     modifier = Modifier
                         .fillMaxWidth(),
                     color = Color.White
                 )
                 Text(
-                    text = "Happy Meal",
+                    text = " Rp 1,000 than last month",
                     modifier = Modifier
                         .fillMaxWidth(),
                     color = Color.White
@@ -145,17 +145,22 @@ fun MoneyCard(
 
 @Composable
 fun ExpenseCard(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    date: String,
+    price: String,
+    title: String,
+    category: String,
+    totalPrice: String
 ) {
     Card(
         modifier = modifier
-            .height(100.dp)
-            .background(Color.White),
-        shape = RoundedCornerShape(15.dp),
+//            .height(100.dp)
+            .background(Color.White)
+            .border(1.dp, Color.LightGray, RoundedCornerShape(15.dp)),
         colors = CardDefaults.cardColors(Color.White)
     ) {
         Box(modifier = Modifier
-            .height(150.dp)
+            .height(200.dp)
             .padding(16.dp)
         ) {
             Column (
@@ -169,37 +174,70 @@ fun ExpenseCard(
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Text(
-                        text = "Happy Meal",
+                        text = date,
                         color = Color.Black
                     )
                     Text(
-                        text = "Happy Meal",
+                        text = totalPrice,
+                        color = Color.Black
+                    )
+                }
+                Spacer(modifier = Modifier.height(2.dp))
+                Divider(color = Color.LightGray, thickness = 1.dp)
+                Spacer(modifier = Modifier.height(2.dp))
+                Row (
+                    modifier = Modifier.fillMaxWidth(),
+//                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    Image(
+                        modifier = Modifier
+                            .height(50.dp)
+                            .width(50.dp),
+                        painter = painterResource(id = R.drawable.food),
+                        contentDescription = "icon"
+                    )
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Column {
+                        Text(
+                            text = category,
+                            color = Color.Black
+                        )
+                        Text(
+                            text = title,
+                            color = Color.Black
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(98.dp))
+                    Text(
+                        text = price,
                         color = Color.Black
                     )
                 }
                 Row (
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+//                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    Text(
-                        text = "Happy Meal",
-                        color = Color.Black
+                    Image(
+                        modifier = Modifier
+                            .height(50.dp)
+                            .width(50.dp),
+                        painter = painterResource(id = R.drawable.shop),
+                        contentDescription = "icon"
                     )
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Column {
+                        Text(
+                            text = category,
+                            color = Color.Black
+                        )
+                        Text(
+                            text = title,
+                            color = Color.Black
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(98.dp))
                     Text(
-                        text = "Happy Meal",
-                        color = Color.Black
-                    )
-                }
-                Row (
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    Text(
-                        text = "Happy Meal",
-                        color = Color.Black
-                    )
-                    Text(
-                        text = "Happy Meal",
+                        text = price,
                         color = Color.Black
                     )
                 }
@@ -235,8 +273,7 @@ fun DefaultPreview() {
         }
         Profile(
             painter = painterResource(id = R.drawable.cinammoroll),
-            contentDescription = "Happy Meal",
-            title = "Happy Meal"
+            contentDescription = "Happy Meal"
         )
         MoneyCard(modifier = Modifier.padding(16.dp))
         Text(
@@ -247,7 +284,7 @@ fun DefaultPreview() {
                 .fillMaxWidth()
                 .padding(16.dp),
         )
-        ExpenseCard(modifier = Modifier.padding(16.dp))
-        ExpenseCard(modifier = Modifier.padding(16.dp))
+        ExpenseCard(modifier = Modifier.padding(16.dp), "Monday, 09", "- Rp 2,500", "Happy Meal", "Shop", "- Rp 5,000")
+        ExpenseCard(modifier = Modifier.padding(16.dp), "Sunday, 08", "- Rp 2,500", "Happy Meal", "Food", "- Rp 5,000")
     }
 }
