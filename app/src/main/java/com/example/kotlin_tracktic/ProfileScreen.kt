@@ -20,7 +20,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -149,22 +151,15 @@ fun ProfileScreen(navController: NavController, onBackClick: () -> Unit) {
 
                 OutlinedTextField(
                     value = nameValue,
+                    leadingIcon = {Icon(imageVector = Icons.Default.Person, contentDescription = "Icon")},
                     label = { Text(text = "Full Name", fontSize = 12.sp, color = Color.LightGray
                        , fontWeight = FontWeight.Bold
-                    )
-                            Icon(
-                                imageVector = Icons.Default.Person,
-                                contentDescription = "Icon",
-                                modifier = Modifier
-                                    .size(10.dp)
-                                    .padding(10.dp),
-                                tint = LocalContentColor.current
-                            )},
+                    )},
 
                     onValueChange = { newValue ->
                         nameValue = newValue.toString()
                     },
-                    maxLines = 1,
+//                    maxLines = 1,
 
                     colors = TextFieldDefaults.textFieldColors(containerColor = Color.White),
                     textStyle = TextStyle(color = Color.Black, fontSize = 12.sp),
@@ -176,7 +171,9 @@ fun ProfileScreen(navController: NavController, onBackClick: () -> Unit) {
             Column(modifier = Modifier.padding(top = 10.dp)) {
                 OutlinedTextField(
                     value = emailValue,
+                    leadingIcon = {Icon(imageVector = Icons.Default.Email, contentDescription = "Icon")},
                     label = { Text(text = "Email", fontSize = 12.sp, color = Color.LightGray, fontWeight = FontWeight.Bold) },
+
 
                     onValueChange = { newValue ->
                         emailValue = newValue.toString()
@@ -193,6 +190,8 @@ fun ProfileScreen(navController: NavController, onBackClick: () -> Unit) {
             Column(modifier = Modifier.padding(top = 10.dp)) {
                 OutlinedTextField(
                     value = mobileValue,
+                    leadingIcon = {Icon(imageVector = Icons.Default.Phone, contentDescription = "Icon")},
+
                     label = { Text(text = "Mobile Number", fontSize = 12.sp, color = Color.LightGray, fontWeight = FontWeight.Bold) },
 
                     onValueChange = { newValue ->
