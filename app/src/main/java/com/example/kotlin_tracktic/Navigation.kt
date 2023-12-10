@@ -1,13 +1,18 @@
 package com.example.kotlin_tracktic
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.kotlin_tracktic.util.SharedViewModel
+
 @Composable
-fun Navigation() {
+fun Navigation(
+    sharedViewModel: SharedViewModel
+) {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
@@ -27,14 +32,21 @@ fun Navigation() {
                 }
             )
         ){ entry ->
-            MainScreen(name = entry.arguments?.getString("name"), navController = navController)
+            MainScreen(
+                name = entry.arguments?.getString("name"),
+                navController = navController,
+//                sharedViewModel = sharedViewModel
+            )
         }
 
         composable(Screen.StatisticScreen.route) {
-            StatisticScreen(navController = navController)
+            StatisticScreen(
+                navController = navController,
+//                sharedViewModel = sharedViewModel
+            )
         }
         composable(Screen.TransactionScreen.route) {
-            TransactionScreen(navController = navController) {
+            TransactionScreen(navController = navController, sharedViewModel = sharedViewModel){
                 navController.popBackStack()
             }
         }
