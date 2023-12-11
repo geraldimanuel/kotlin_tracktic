@@ -1,12 +1,16 @@
 package com.example.kotlin_tracktic
 
-import android.widget.CalendarView
-import android.widget.DatePicker
+//import android.widget.CalendarView
+//import android.widget.DatePicker
+import android.util.Log
 import android.widget.Toast
+//import com.google.firebase.Firebase
+//import com.google.firebase.firestore.firestore
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,21 +21,18 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -49,23 +50,29 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
-
+import com.example.kotlin_tracktic.util.SharedViewModel
+import com.example.kotlin_tracktic.util.TransactionData
 
 data class ButtonData(val label: String, val isPressedState: MutableState<Boolean>)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TransactionScreen(navController: NavController, onBackClick: () -> Unit) {
+fun TransactionScreen(
+    navController: NavController,
+    sharedViewModel: SharedViewModel,
+    onBackClick: () -> Unit,
+
+) {
 
     var textFieldValue by remember { mutableStateOf(0) }
     var remarksValue by remember { mutableStateOf("") }
+    var categoryValue by remember { mutableStateOf("") }
+    var typeValue by remember { mutableStateOf("") }
+
 
     val buttons = remember {
         listOf(
@@ -82,6 +89,8 @@ fun TransactionScreen(navController: NavController, onBackClick: () -> Unit) {
             ButtonData("500,000", mutableStateOf(false))
         )
     }
+
+    val context = LocalContext.current
 
     Box(
         contentAlignment = Alignment.Center,
@@ -124,7 +133,7 @@ fun TransactionScreen(navController: NavController, onBackClick: () -> Unit) {
         }
 
             // Toggle Category
-            Column() {
+            Column {
                 TextField(
                     value = textFieldValue.toString(),
                     onValueChange = { newValue ->
@@ -224,6 +233,8 @@ fun TransactionScreen(navController: NavController, onBackClick: () -> Unit) {
                 var expanded by remember { mutableStateOf(false) }
                 var selectedOptionText by remember { mutableStateOf(options[0]) }
 
+                typeValue = selectedOptionText
+
                 ExposedDropdownMenuBox(
                     expanded = expanded,
                     onExpandedChange = { expanded = !expanded },
@@ -253,6 +264,7 @@ fun TransactionScreen(navController: NavController, onBackClick: () -> Unit) {
                                 onClick = {
                                     selectedOptionText = selectionOption
                                     expanded = false
+                                    typeValue = selectionOption
                                 },
                                 contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
                             )
@@ -266,6 +278,8 @@ fun TransactionScreen(navController: NavController, onBackClick: () -> Unit) {
                 val options = listOf("Transportation", "Food", "Electronic", "Shop", "Others")
                 var expanded by remember { mutableStateOf(false) }
                 var selectedOptionText by remember { mutableStateOf(options[0]) }
+
+                categoryValue = selectedOptionText
 
                 ExposedDropdownMenuBox(
                     expanded = expanded,
@@ -296,6 +310,7 @@ fun TransactionScreen(navController: NavController, onBackClick: () -> Unit) {
                                 onClick = {
                                     selectedOptionText = selectionOption
                                     expanded = false
+                                    categoryValue = selectionOption
                                 },
                                 contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
                             )
@@ -378,12 +393,19 @@ fun TransactionScreen(navController: NavController, onBackClick: () -> Unit) {
             }
 
             // Button
-            Column(modifier = Modifier.padding(top = 30.dp)) {
-                val context = LocalContext.current
-
+            Column(
+                modifier = Modifier.padding(top = 30.dp),
+                ) {
                 OutlinedButton(
                     onClick = {
-                        Toast.makeText(context, "Submitted!", Toast.LENGTH_SHORT).show()
+                        val transactionData = TransactionData(
+                            nominal = textFieldValue,
+                            category = categoryValue,
+                            date = Calendar.getInstance().time,
+                            description = remarksValue,
+                            type = typeValue
+                        )
+                        sharedViewModel.saveData(transactionData, context)
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = com.example.kotlin_tracktic.ui.theme.Red30,
@@ -410,3 +432,8 @@ fun TransactionScreen(navController: NavController, onBackClick: () -> Unit) {
     }
 }}
 
+@Preview
+@Composable
+fun TransactionScreenPreview() {
+    TransactionScreen(navController = NavController(LocalContext.current), sharedViewModel = SharedViewModel(), onBackClick = {})
+}
