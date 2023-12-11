@@ -4,6 +4,8 @@ package com.example.kotlin_tracktic
 //import android.widget.DatePicker
 import android.util.Log
 import android.widget.Toast
+//import com.google.firebase.Firebase
+//import com.google.firebase.firestore.firestore
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -36,8 +38,8 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -54,12 +56,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.kotlin_tracktic.util.SharedViewModel
 import com.example.kotlin_tracktic.util.TransactionData
-import com.google.firebase.Firebase
-import com.google.firebase.firestore.firestore
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
 
 data class ButtonData(val label: String, val isPressedState: MutableState<Boolean>)
 
@@ -137,7 +133,7 @@ fun TransactionScreen(
         }
 
             // Toggle Category
-            Column() {
+            Column {
                 TextField(
                     value = textFieldValue.toString(),
                     onValueChange = { newValue ->
@@ -435,9 +431,9 @@ fun TransactionScreen(
             BottomNavigation(navController = navController)
     }
 }}
-//
-//@Preview
-//@Composable
-//fun TransactionScreenPreview() {
-//    TransactionScreen(navController = NavController(LocalContext.current), onBackClick = {})
-//}
+
+@Preview
+@Composable
+fun TransactionScreenPreview() {
+    TransactionScreen(navController = NavController(LocalContext.current), sharedViewModel = SharedViewModel(), onBackClick = {})
+}
