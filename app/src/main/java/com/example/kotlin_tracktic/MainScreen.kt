@@ -5,16 +5,18 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
@@ -25,112 +27,108 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.kotlin_tracktic.ui.theme.Purple40
+import com.example.kotlin_tracktic.util.SharedViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 //@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(name: String?, navController: NavController) {
+fun MainScreen(name: String?, navController: NavController, sharedViewModel: SharedViewModel) {
 
-    Column (
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-            .padding(16.dp)
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize()
     ) {
-        Row (
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
+        Column(
+            horizontalAlignment = CenterHorizontally
         ) {
-            Image(
-                modifier = Modifier
-                    .height(50.dp),
-                painter = painterResource(id = R.drawable.cinammoroll),
-                contentDescription = "Logo")
-            Icon(
-                modifier = Modifier
-                    .height(50.dp),
-                painter = painterResource(id = R.drawable.baseline_search_24),
-                contentDescription = "Search")
-        }
-        Profile(
-            painter = painterResource(id = R.drawable.cinammoroll),
-            contentDescription = "Happy Meal"
-        )
-        MoneyCard(modifier = Modifier.padding(16.dp))
-        Text(
-            text = "Expense List",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-        )
-        ExpenseCard(modifier = Modifier.padding(16.dp), "Monday, 09", "- Rp 2,500", "Happy Meal", "Shop", "- Rp 5,000")
-        ExpenseCard(modifier = Modifier.padding(16.dp), "Sunday, 08", "- Rp 2,500", "Happy Meal", "Food", "- Rp 5,000")
-
-        BottomNavigation(navController = navController)
-    }
-
-//    Box(
-//        contentAlignment = Alignment.Center,
-//        modifier = Modifier.fillMaxSize()
-//    ) {
-//        Column(
-//            horizontalAlignment = CenterHorizontally
-//        ) {
 //            Text(text = "Hello, $name")
-//            BottomNavigation(navController = navController)
-//        }
-//    }
+            Column (
+                modifier = Modifier
+                    .padding(20.dp),
+            ) {
+                Row (
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    Text(modifier = Modifier.padding(top = 12.dp), text = "Logo", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
+                    androidx.compose.material3.Icon(
+                        modifier = Modifier
+                            .height(50.dp),
+                        painter = painterResource(id = R.drawable.baseline_search_24),
+                        contentDescription = "Search"
+                    )
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Profile(
+                    painter = painterResource(id = R.drawable.cinammoroll),
+                    contentDescription = "Happy Meal",
+                    name = name ?: "Bella"
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                MoneyCard(modifier = Modifier)
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Text(
+                    text = "Expense List",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                ExpenseCard(modifier = Modifier, "Monday, 09", "- Rp 2,500", "Happy Meal", "Shop", "- Rp 5,000")
+                Spacer(modifier = Modifier.height(16.dp))
+
+                ExpenseCard(modifier = Modifier, "Monday, 08", "- Rp 2,500", "Electronic", "Transportation", "- Rp 5,000")
+            }
+
+            BottomNavigation(navController = navController)
+        }
+    }
 }
 
-//class MainActivity : ComponentActivity() {
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContent {
-//        }
-//    }
-//}
-//
 @Composable
 fun Profile(
     painter: Painter,
-    contentDescription: String
+    contentDescription: String,
+    name: String
 ) {
     Box(modifier = Modifier
-        .height(100.dp)
-        .padding(16.dp),
+        .height(50.dp),
         contentAlignment = Alignment.Center
     ) {
         Row (
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight()
-        ) {
+                ) {
             Image(
                 painter = painter,
                 contentDescription = contentDescription,
                 modifier = Modifier
-                    .height(100.dp)
+                    .clip(CircleShape)
+                    .height(50.dp)
                     .background(Color.Black)
             )
-            Spacer(modifier = Modifier.width(32.dp))
+            Spacer(modifier = Modifier.width(24.dp))
             Column (
                 modifier = Modifier
                     .height(100.dp),
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Morning",
+                    text = "Morning,",
                     color = Color.Black
                 )
                 Text(
-                    text = "Gerald",
+                    text = name,
                     color = Color.Black
                 )
             }
-            Spacer(modifier = Modifier.width(90.dp))
+            Spacer(modifier = Modifier.width(144.dp))
             Text(
                 modifier = Modifier
                     .fillMaxHeight()
@@ -154,7 +152,7 @@ fun MoneyCard(
     ) {
         Box(modifier = Modifier
             .height(150.dp)
-            .padding(16.dp)
+            .padding(20.dp)
         ) {
             Column (
                 modifier = Modifier
@@ -203,7 +201,7 @@ fun ExpenseCard(
     ) {
         Box(modifier = Modifier
             .height(200.dp)
-            .padding(16.dp)
+            .padding(20.dp)
         ) {
             Column (
                 modifier = Modifier
@@ -229,27 +227,28 @@ fun ExpenseCard(
                 Spacer(modifier = Modifier.height(2.dp))
                 Row (
                     modifier = Modifier.fillMaxWidth(),
-//                    horizontalArrangement = Arrangement.SpaceBetween,
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    Image(
-                        modifier = Modifier
-                            .height(50.dp)
-                            .width(50.dp),
-                        painter = painterResource(id = R.drawable.food),
-                        contentDescription = "icon"
-                    )
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Column {
-                        Text(
-                            text = category,
-                            color = Color.Black
+                    Row {
+                        Image(
+                            modifier = Modifier
+                                .height(50.dp)
+                                .width(50.dp),
+                            painter = painterResource(id = R.drawable.food),
+                            contentDescription = "icon"
                         )
-                        Text(
-                            text = title,
-                            color = Color.Black
-                        )
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Column {
+                            Text(
+                                text = category,
+                                color = Color.Black
+                            )
+                            Text(
+                                text = title,
+                                color = Color.Black
+                            )
+                        }
                     }
-                    Spacer(modifier = Modifier.width(98.dp))
                     Text(
                         text = price,
                         color = Color.Black
@@ -257,27 +256,28 @@ fun ExpenseCard(
                 }
                 Row (
                     modifier = Modifier.fillMaxWidth(),
-//                    horizontalArrangement = Arrangement.SpaceBetween,
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    Image(
-                        modifier = Modifier
-                            .height(50.dp)
-                            .width(50.dp),
-                        painter = painterResource(id = R.drawable.shop),
-                        contentDescription = "icon"
-                    )
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Column {
-                        Text(
-                            text = category,
-                            color = Color.Black
+                    Row {
+                        Image(
+                            modifier = Modifier
+                                .height(50.dp)
+                                .width(50.dp),
+                            painter = painterResource(id = R.drawable.shop),
+                            contentDescription = "icon"
                         )
-                        Text(
-                            text = title,
-                            color = Color.Black
-                        )
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Column {
+                            Text(
+                                text = category,
+                                color = Color.Black
+                            )
+                            Text(
+                                text = title,
+                                color = Color.Black
+                            )
+                        }
                     }
-                    Spacer(modifier = Modifier.width(98.dp))
                     Text(
                         text = price,
                         color = Color.Black
@@ -291,5 +291,5 @@ fun ExpenseCard(
 @Preview
 @Composable
 fun DefaultPreview() {
-    MainScreen(name = "Bella", navController = NavController(LocalContext.current))
+    MainScreen(name = "Bella", navController = NavController(LocalContext.current), sharedViewModel = SharedViewModel())
 }

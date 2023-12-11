@@ -1,7 +1,5 @@
 package com.example.kotlin_tracktic
 
-//import com.google.firebase.Firebase
-//import com.google.firebase.firestore.firestore
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -120,7 +118,7 @@ fun TransactionScreen(
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
-        }
+            }
 
             // Toggle Category
             Column {
