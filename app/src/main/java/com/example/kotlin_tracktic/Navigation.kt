@@ -57,7 +57,11 @@ fun Navigation(
             NotificationScreen(navController = navController)
         }
         composable(Screen.ProfileScreen.route) {
-            ProfileScreen(navController = navController)
+            ProfileScreen(navController = navController){
+                navController.popBackStack()
+            }
         }
+
+
     }
 }
