@@ -53,6 +53,11 @@ fun Navigation(
                 navController.popBackStack()
             }
         }
+        composable(Screen.EditProfileScreen.route) {
+            EditProfileScreen(navController = navController){
+                navController.popBackStack()
+            }
+        }
         composable(Screen.NotificationScreen.route) {
             NotificationScreen(navController = navController)
         }

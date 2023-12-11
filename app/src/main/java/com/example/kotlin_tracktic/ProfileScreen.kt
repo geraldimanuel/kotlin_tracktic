@@ -112,7 +112,7 @@ fun ProfileScreen(navController: NavController, onBackClick: () -> Unit) {
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
-                    ProfileOption(icon = Icons.Filled.Person, label = "Edit Profile", onClick = { }, logoColor = Red30)
+                    ProfileOption(icon = Icons.Filled.Person, label = "Edit Profile", onClick = { navController.navigate(Screen.EditProfileScreen.route) }, logoColor = Red30)
                     Spacer(modifier = Modifier.height(16.dp))
                     Divider()
                     Spacer(modifier = Modifier.height(16.dp))

@@ -106,7 +106,7 @@ fun EditProfileScreen(navController: NavController, onBackClick: () -> Unit) {
 
             Column(modifier = Modifier.padding(top = 5.dp)) {
                 Image(
-                    painter = painterResource(id = R.drawable.dogpuppy),
+                    painter = painterResource(id = R.drawable.chaeunwoo),
 
                     contentDescription = "Profile Picture",
                     modifier = Modifier
