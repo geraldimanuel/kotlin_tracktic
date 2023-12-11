@@ -114,9 +114,6 @@ fun EditProfileScreen(navController: NavController, onBackClick: () -> Unit) {
                         .size(100.dp)
                         .clip(RoundedCornerShape(50))
                         .background(Color.LightGray)
-                    // give gap between image and border
-
-//                        .border(BorderStroke(width = 2.dp, color = Color.Black), CircleShape)
                 )
                 Row {
                     Text(
@@ -147,202 +144,7 @@ fun EditProfileScreen(navController: NavController, onBackClick: () -> Unit) {
             )
 
             Column(modifier = Modifier.padding(top = 10.dp)) {
-                //             Row(
-                //                modifier = Modifier
-                //                    .fillMaxWidth()
-                //                    .padding(16.dp),
-                //                horizontalArrangement = Arrangement.SpaceBetween,
-                //                verticalAlignment = Alignment.CenterVertically
-                //            ) {
-                //                Box(
-                //                    modifier = Modifier
-                //                        .size(24.dp)
-                //                        .clickable {
-                //                            onBackClick.invoke()
-                //                        }
-                //                ) {
-                //                    Icon(
-                //                        imageVector = Icons.Default.ArrowBack,
-                //                        contentDescription = "Back",
-                //                        modifier = Modifier.fillMaxSize(),
-                //                        tint = LocalContentColor.current
-                //                    )
-                //                }
-                //                Text(
-                //                    text = "Edit Profile",
-                //                    modifier = Modifier
-                //                        .weight(1f)
-                //                        .fillMaxWidth(),
-                //                    // padding between text and icon
-                //
-                //
-                //                    textAlign = TextAlign.Center,
-                //                    fontSize = 16.sp,
-                //                    fontWeight = FontWeight.Bold
-                //                )
-                //            }
-                //
-                //            Column(modifier = Modifier.padding(top = 5.dp)) {
-                //                Image(
-                //                    painter = painterResource(id = R.drawable.dogpuppy),
-                //
-                //                    contentDescription = "Profile Picture",
-                //                    modifier = Modifier
-                //                        .align(Alignment.CenterHorizontally)
-                //                        .size(100.dp)
-                //                        .clip(RoundedCornerShape(50))
-                //                        .background(Color.LightGray)
-                //                    // give gap between image and border
-                //
-                ////                        .border(BorderStroke(width = 2.dp, color = Color.Black), CircleShape)
-                //                )
-                //                Row {
-                //                    Text(
-                //                        text = "Change Profile Picture",
-                //                        modifier = Modifier
-                //                            .padding(top = 5.dp),
-                //                        fontSize = 12.sp,
-                //                        fontWeight = FontWeight.Bold
-                //                    )
-                //                    Icon(
-                //                        imageVector = Icons.Default.Create,
-                //                        contentDescription = "Icon",
-                //                        modifier = Modifier
-                //                            .size(10.dp),
-                //                        tint = LocalContentColor.current
-                //                    )
-                //                }
-                //
-                //
-                //            }
-                //            Text(
-                //                text = "Share your life to the world",
-                //                modifier = Modifier
-                //                    .align(Alignment.CenterHorizontally)
-                //                    .padding(top = 5.dp),
-                //                fontSize = 12.sp,
-                //                color = Color.LightGray
-                //            )
-                //
-                //            Column(modifier = Modifier.padding(top = 10.dp)) {
-                //                // give icon left side of outlinetextfield
-                //
-                //                OutlinedTextField(
-                //                    value = nameValue,
-                //                    leadingIcon = {Icon(imageVector = Icons.Default.Person, contentDescription = "Icon")},
-                //                    label = { Text(text = "Full Name", fontSize = 12.sp, color = Color.LightGray
-                //                        , fontWeight = FontWeight.Bold
-                //
-                //                    )},
-                //
-                //                    onValueChange = { newValue ->
-                //                        nameValue = newValue.toString()
-                //                    },
-                ////                    maxLines = 1,
-                //
-                //                    colors = TextFieldDefaults.textFieldColors(containerColor = Color.White),
-                //                    textStyle = TextStyle(color = Color.Black, fontSize = 12.sp),
-                //                    modifier = Modifier
-                //                        .background(Color.White),
-                //
-                ////                    border = BorderStroke(1.dp, Color.LightGray),
-                //                    shape = RoundedCornerShape(30),
-                //                )
-                //            }
-                //
-                //            Column(modifier = Modifier.padding(top = 10.dp)) {
-                //                OutlinedTextField(
-                //                    value = emailValue,
-                //                    leadingIcon = {Icon(imageVector = Icons.Default.Email, contentDescription = "Icon")},
-                //                    label = { Text(text = "Email", fontSize = 12.sp, color = Color.LightGray, fontWeight = FontWeight.Bold) },
-                //
-                //
-                //                    onValueChange = { newValue ->
-                //                        emailValue = newValue.toString()
-                //                    },
-                //                    maxLines = 1,
-                //
-                //                    colors = TextFieldDefaults.textFieldColors(containerColor = Color.White),
-                //                    textStyle = TextStyle(color = Color.Black, fontSize = 12.sp),
-                //                    modifier = Modifier
-                //                        .background(Color.White),
-                //
-                //                    shape = RoundedCornerShape(30),
-                //                )
-                //            }
-                //
-                //            Column(modifier = Modifier.padding(top = 10.dp)) {
-                //                OutlinedTextField(
-                //                    value = mobileValue,
-                //                    leadingIcon = {Icon(imageVector = Icons.Default.Phone, contentDescription = "Icon")},
-                //
-                //                    label = { Text(text = "Mobile Number", fontSize = 12.sp, color = Color.LightGray, fontWeight = FontWeight.Bold
-                //                    ) },
-                //
-                //
-                //                    onValueChange = { newValue ->
-                //                        mobileValue = newValue.toString()
-                //                    },
-                //                    maxLines = 1,
-                //
-                //                    colors = TextFieldDefaults.textFieldColors(containerColor = Color.White),
-                //                    textStyle = TextStyle(color = Color.Black, fontSize = 12.sp),
-                //                    modifier = Modifier
-                //                        .background(Color.White),
-                //
-                //                    shape = RoundedCornerShape(30),
-                //
-                //
-                //                    )
-                //            }
-                //
-                //            // Button
-                //            Column(modifier = Modifier.padding(top = 100.dp)) {
-                //                val context = LocalContext.current
-                //
-                //                OutlinedButton(
-                //                    onClick = {
-                //                        Toast.makeText(context, "Updated!", Toast.LENGTH_SHORT).show()
-                //                    },
-                //                    colors = ButtonDefaults.buttonColors(
-                //                        containerColor = com.example.kotlin_tracktic.ui.theme.Red30,
-                //                        contentColor = Color.Black
-                //                    ),
-                //                    border = BorderStroke(1.dp, Color.LightGray),
-                //                    shape = RoundedCornerShape(20),
-                //                    modifier = Modifier
-                //                        .width(278.dp)
-                //                        .padding(0.dp)
-                //                ) {
-                //                    Row {
-                //                        // Icon
-                //                        Icon(
-                //                            imageVector = Icons.Default.Refresh,
-                //                            contentDescription = "Icon",
-                //                            modifier = Modifier
-                //                                .size(30.dp)
-                //                                .padding(end = 10.dp),
-                //                            tint = LocalContentColor.current
-                //                        )
-                //
-                //                        Text(
-                //                            text = "Update",
-                //                            style = TextStyle(
-                //                                color = com.example.kotlin_tracktic.ui.theme.Red40,
-                //                                fontSize = 16.sp,
-                //                                fontWeight = FontWeight.Bold
-                //                            ),
-                //                            modifier = Modifier
-                //                                .padding(top = 3.dp),
-                //
-                //
-                //
-                //                            )
-                //                    }
-                //                }
-                //            }
-                //
-                //            BottomNavigation(navController = navController)give icon left side of outlinetextfield
+
 
                 OutlinedTextField(
                     value = nameValue,
@@ -451,9 +253,7 @@ fun EditProfileScreen(navController: NavController, onBackClick: () -> Unit) {
                             ),
                             modifier = Modifier
                                 .padding(top = 3.dp),
-
-
-
+                            
                             )
                     }
                 }

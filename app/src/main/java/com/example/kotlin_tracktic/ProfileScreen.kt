@@ -38,6 +38,8 @@ import androidx.compose.material3.OutlinedTextField
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.outlined.Home
 //import androidx.compose.foundation.shape.RoundedCornerShape
 
 import androidx.compose.material3.Text
@@ -67,6 +69,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 
 
 data class ButtonProfile(val label: String, val isPressedState: MutableState<Boolean>)
@@ -74,229 +79,11 @@ data class ButtonProfile(val label: String, val isPressedState: MutableState<Boo
 @Composable
 fun ProfileScreen(navController: NavController, onBackClick: () -> Unit) {
 
-    var nameValue by remember { mutableStateOf("") }
-    var emailValue by remember { mutableStateOf("") }
-    var mobileValue by remember { mutableStateOf("") }
-
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize()
     ) {
         // HEADER
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(24.dp)
-                        .clickable {
-                            onBackClick.invoke()
-                        }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Back",
-                        modifier = Modifier.fillMaxSize(),
-                        tint = LocalContentColor.current
-                    )
-                }
-                Text(
-                    text = "Edit Profile",
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth(),
-
-                    textAlign = TextAlign.Center,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-
-            Column(modifier = Modifier.padding(top = 5.dp)) {
-                Image(
-                    painter = painterResource(id = R.drawable.dogpuppy),
-
-                    contentDescription = "Profile Picture",
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .size(100.dp)
-                        .clip(RoundedCornerShape(50))
-                        .background(Color.LightGray)
-                        // give gap between image and border
-
-                        .border(BorderStroke(width = 2.dp, color = Color.Black), CircleShape)
-                )
-                Row {
-                    Text(
-                        text = "Change Profile Picture",
-                        modifier = Modifier
-                            .padding(top = 5.dp),
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Icon(
-                        imageVector = Icons.Default.Create,
-                        contentDescription = "Icon",
-                        modifier = Modifier
-                            .size(10.dp),
-                        tint = LocalContentColor.current
-                    )
-                }
-
-
-            }
-            Text(
-                text = "Share your life to the world",
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(top = 5.dp),
-                fontSize = 12.sp,
-                color = Color.LightGray
-            )
-
-            Column(modifier = Modifier.padding(top = 10.dp)) {
-                // give icon left side of outlinetextfield
-
-                OutlinedTextField(
-                    value = nameValue,
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.Person,
-                            contentDescription = "Icon"
-                        )
-                    },
-                    label = {
-                        Text(
-                            text = "Full Name",
-                            fontSize = 12.sp,
-                            color = Color.LightGray,
-                            fontWeight = FontWeight.Bold
-                        )
-                    },
-
-                    onValueChange = { newValue ->
-                        nameValue = newValue.toString()
-                    },
-//                    maxLines = 1,
-
-                    colors = TextFieldDefaults.textFieldColors(containerColor = Color.White),
-                    textStyle = TextStyle(color = Color.Black, fontSize = 12.sp),
-                    modifier = Modifier
-                        .background(Color.White)
-                )
-            }
-
-            Column(modifier = Modifier.padding(top = 10.dp)) {
-                OutlinedTextField(
-                    value = emailValue,
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.Email,
-                            contentDescription = "Icon"
-                        )
-                    },
-                    label = {
-                        Text(
-                            text = "Email",
-                            fontSize = 12.sp,
-                            color = Color.LightGray,
-                            fontWeight = FontWeight.Bold
-                        )
-                    },
-
-
-                    onValueChange = { newValue ->
-                        emailValue = newValue.toString()
-                    },
-                    maxLines = 1,
-
-                    colors = TextFieldDefaults.textFieldColors(containerColor = Color.White),
-                    textStyle = TextStyle(color = Color.Black, fontSize = 12.sp),
-                    modifier = Modifier
-                        .background(Color.White)
-                )
-            }
-
-            Column(modifier = Modifier.padding(top = 10.dp)) {
-                OutlinedTextField(
-                    value = mobileValue,
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.Phone,
-                            contentDescription = "Icon"
-                        )
-                    },
-
-                    label = {
-                        Text(
-                            text = "Mobile Number",
-                            fontSize = 12.sp,
-                            color = Color.LightGray,
-                            fontWeight = FontWeight.Bold
-                        )
-                    },
-
-                    onValueChange = { newValue ->
-                        mobileValue = newValue.toString()
-                    },
-                    maxLines = 1,
-
-                    colors = TextFieldDefaults.textFieldColors(containerColor = Color.White),
-                    textStyle = TextStyle(color = Color.Black, fontSize = 12.sp),
-                    modifier = Modifier
-                        .background(Color.White)
-                )
-            }
-
-            // Button
-            Column(modifier = Modifier.padding(top = 30.dp)) {
-                val context = LocalContext.current
-
-                OutlinedButton(
-                    onClick = {
-                        Toast.makeText(context, "Updated!", Toast.LENGTH_SHORT).show()
-                    },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = com.example.kotlin_tracktic.ui.theme.Red30,
-                        contentColor = Color.Black
-                    ),
-                    border = BorderStroke(1.dp, Color.LightGray),
-                    shape = RoundedCornerShape(20),
-                    modifier = Modifier
-                        .width(278.dp)
-                        .padding(0.dp)
-                ) {
-                    Row {
-                        // Icon
-                        Icon(
-                            imageVector = Icons.Default.Refresh,
-                            contentDescription = "Icon",
-                            modifier = Modifier
-                                .size(30.dp)
-                                .padding(end = 10.dp),
-                            tint = LocalContentColor.current
-                        )
-
-                        Text(
-                            text = "Update",
-                            style = TextStyle(
-                                color = com.example.kotlin_tracktic.ui.theme.Red40,
-                                fontSize = 16.sp
-                            ),
-                            modifier = Modifier
-                                .padding(top = 3.dp)
-                        )
-                    }
-                }
-            }
-
             Column() {
                 Column {
                     Text(
@@ -306,18 +93,39 @@ fun ProfileScreen(navController: NavController, onBackClick: () -> Unit) {
                         modifier = Modifier.padding(40.dp)
                     )
                 }
-                Column {
-//                Image(
-//                    painter = painterResource(id = R.drawable.dog),
-//                    contentScale = ContentScale.Crop,
-//                    modifier = Modifier
-//                        .size(200.dp)
-//                        .clip(RoundedCornerShape(16.dp))
-//                )
-                }
+
+            }
+            Icon(
+                imageVector = Icons.Default.Create,
+                contentDescription = "Edit Profile",
+                modifier = Modifier
+                    .size(10.dp)
+                    .clickable{
+                        navController.navigate(MainDestinations.EDIT_PROFILE_ROUTE)
+                    }
+            )
 
                 BottomNavigation(navController = navController)
             }
         }
-    }
+
+object MainDestinations{
+    const val PROFILE_ROUTE = "profile"
+    const val EDIT_PROFILE_ROUTE = "edit_profile"
 }
+
+@Composable
+fun SetupNavHost(){
+    val navController = rememberNavController()
+
+    NavHost(navController = navController, startDestination = MainDestinations.PROFILE_ROUTE){
+        composable(MainDestinations.PROFILE_ROUTE){
+            ProfileScreen(navController = navController, onBackClick = { navController.popBackStack() })
+        }
+        composable(MainDestinations.EDIT_PROFILE_ROUTE){
+            EditProfileScreen(navController = navController, onBackClick = { navController.popBackStack() })
+        }
+    }
+
+}
+
