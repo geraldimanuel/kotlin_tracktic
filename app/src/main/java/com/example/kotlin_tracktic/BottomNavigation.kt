@@ -1,6 +1,7 @@
 package com.example.kotlin_tracktic
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -28,6 +29,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import com.example.kotlin_tracktic.ui.theme.Kotlin_trackticTheme
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.kotlin_tracktic.ui.theme.Kotlin_trackticTheme

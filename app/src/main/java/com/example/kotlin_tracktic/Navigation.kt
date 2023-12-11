@@ -15,11 +15,14 @@ fun Navigation(
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = Screen.TransactionScreen.route,
+        startDestination = Screen.LoginScreen.route,
 //        modifier = Modifier
     ) {
         composable(Screen.LoginScreen.route) {
             LoginScreen(navController = navController)
+        }
+        composable(Screen.RegisterScreen.route) {
+            RegisterScreen(navController = navController)
         }
         composable(
             route = Screen.MainScreen.route + "/{name}",
@@ -49,11 +52,20 @@ fun Navigation(
                 navController.popBackStack()
             }
         }
+        composable(Screen.EditProfileScreen.route) {
+            EditProfileScreen(navController = navController){
+                navController.popBackStack()
+            }
+        }
         composable(Screen.NotificationScreen.route) {
             NotificationScreen(navController = navController)
         }
         composable(Screen.ProfileScreen.route) {
-            ProfileScreen(navController = navController)
+            ProfileScreen(navController = navController){
+                navController.popBackStack()
+            }
         }
+
+
     }
 }
