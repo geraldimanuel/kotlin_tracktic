@@ -32,8 +32,6 @@ import androidx.compose.ui.Modifier
 import com.example.kotlin_tracktic.ui.theme.Kotlin_trackticTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.kotlin_tracktic.ui.theme.Kotlin_trackticTheme
