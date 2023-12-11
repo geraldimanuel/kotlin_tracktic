@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
@@ -38,11 +39,13 @@ import com.example.kotlin_tracktic.ui.theme.Yellow30
 import com.example.kotlin_tracktic.ui.theme.Purple40
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(navController: NavController) {
+fun RegisterScreen(navController: NavController) {
     var text by remember {
         mutableStateOf("")
     }
     var password by rememberSaveable { mutableStateOf("") }
+
+    var passwordconfirm by rememberSaveable { mutableStateOf("") }
 
     val onClick = {
         navController.navigate(Screen.RegisterScreen.route)
@@ -116,6 +119,34 @@ fun LoginScreen(navController: NavController) {
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             visualTransformation = PasswordVisualTransformation(),
         )
+        Spacer(modifier = Modifier.height(8.dp))
+        OutlinedTextField(
+            value = passwordconfirm,
+            onValueChange = {
+                passwordconfirm = it
+            },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Done,
+                    contentDescription = "Icon"
+                )
+            },
+            label = {
+                Text(
+                    text = "Password",
+                    fontSize = 12.sp,
+                    color = Color.LightGray,
+                    fontWeight = FontWeight.Bold
+                )
+            },
+            colors = TextFieldDefaults.textFieldColors(containerColor = Color.White),
+            textStyle = TextStyle(color = Color.Black, fontSize = 16.sp),
+            modifier = Modifier
+                .background(Color.White),
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            visualTransformation = PasswordVisualTransformation(),
+        )
         Spacer(modifier = Modifier.height(10.dp))
         Button(
             onClick = {
@@ -127,7 +158,7 @@ fun LoginScreen(navController: NavController) {
             modifier = Modifier.align(Alignment.End)
                 .fillMaxWidth()
         ) {
-            Text(text = "Login")
+            Text(text = "Register")
         }
         Spacer(modifier = Modifier.height(10.dp))
         Divider()
@@ -142,12 +173,12 @@ fun LoginScreen(navController: NavController) {
             modifier = Modifier.align(Alignment.End)
                 .fillMaxWidth()
         ) {
-            Text(text = "Sign In With Gulugulu")
+            Text(text = "Sign Up With Gulugulu")
         }
         Spacer(modifier = Modifier.height(10.dp))
         Button(
             onClick = {
-                navController.navigate(Screen.RegisterScreen.route)
+                navController.navigate(Screen.LoginScreen.route)
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Transparent,
@@ -157,7 +188,7 @@ fun LoginScreen(navController: NavController) {
                 .fillMaxWidth()
         ) {
             Text(
-                text = "Don't have an account yet? Register here",
+                text = "Already have an account? Login here",
                 fontSize = 12.sp,
                 color = Purple40
             )
