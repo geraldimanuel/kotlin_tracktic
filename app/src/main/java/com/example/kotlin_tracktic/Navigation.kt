@@ -16,11 +16,14 @@ fun Navigation(
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = Screen.TransactionScreen.route,
+        startDestination = Screen.LoginScreen.route,
 //        modifier = Modifier
     ) {
         composable(Screen.LoginScreen.route) {
             LoginScreen(navController = navController)
+        }
+        composable(Screen.RegisterScreen.route) {
+            RegisterScreen(navController = navController)
         }
         composable(
             route = Screen.MainScreen.route + "/{name}",
