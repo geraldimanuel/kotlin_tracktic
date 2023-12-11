@@ -408,6 +408,8 @@ fun TransactionScreen(
                             type = typeValue
                         )
                         sharedViewModel.saveData(transactionData, context)
+                        onBackClick.invoke()
+
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = com.example.kotlin_tracktic.ui.theme.Red30,

@@ -27,7 +27,6 @@ class SharedViewModel(): ViewModel() {
             "date" to transactionData.date,
             "description" to transactionData.description,
             "type" to transactionData.type
-
         )
 
         try {
@@ -42,27 +41,28 @@ class SharedViewModel(): ViewModel() {
     }
 
     fun retrieveData(
-        id: String,
+        user: String,
         context: Context,
-        data: (TransactionData) -> Unit
+//        data: (TransactionData) -> Unit
     ) = CoroutineScope(Dispatchers.IO).launch{
-        val firestoreRef = Firebase.firestore
-            .collection("transactions")
-            .document(id)
 
+        val db = Firebase.firestore
         try {
-            firestoreRef.get()
-                .addOnSuccessListener {
-                   if (it.exists()) {
-                       val transactionData = it.toObject(TransactionData::class.java)
-                       data(transactionData!!)
-                   } else {
-                       Toast.makeText(context, "Data not found", Toast.LENGTH_SHORT).show()
-                   }
+            db.collection("transactions")
+//                .whereEqualTo("category", user)
+                .get()
+                .addOnSuccessListener { documents ->
+                    for (document in documents) {
+                        Log.d("debug data","${document.id} => ${document.data}")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.w("Error getting documents: ", exception)
                 }
         } catch (e: Exception) {
             Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
         }
+
     }
 
     fun deleteData(
