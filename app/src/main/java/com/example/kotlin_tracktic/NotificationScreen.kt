@@ -19,7 +19,9 @@ fun NotificationScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(text = "Notification Page")
-            BottomNavigation(navController = navController)
+            BottomNavigation(
+                navController = navController
+            )
         }
     }
 }

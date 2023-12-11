@@ -19,7 +19,9 @@ fun StatisticScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(text = "Statistic Page")
-            BottomNavigation(navController = navController)
+            BottomNavigation(
+                navController = navController
+            )
         }
     }
 }

@@ -43,7 +43,9 @@ fun ProfileScreen(navController: NavController) {
 //                        .clip(RoundedCornerShape(16.dp))
 //                )
             }
-            BottomNavigation(navController = navController)
+            BottomNavigation(
+                navController = navController
+            )
         }
     }
 }

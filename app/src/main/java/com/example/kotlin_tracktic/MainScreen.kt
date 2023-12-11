@@ -69,7 +69,9 @@ fun MainScreen(name: String?, navController: NavController) {
         ExpenseCard(modifier = Modifier.padding(16.dp), "Monday, 09", "- Rp 2,500", "Happy Meal", "Shop", "- Rp 5,000")
         ExpenseCard(modifier = Modifier.padding(16.dp), "Sunday, 08", "- Rp 2,500", "Happy Meal", "Food", "- Rp 5,000")
 
-        BottomNavigation(navController = navController)
+        BottomNavigation(
+            navController = navController
+        )
     }
 
 //    Box(
