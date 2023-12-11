@@ -2,11 +2,13 @@ package com.example.kotlin_tracktic
 
 //import android.widget.CalendarView
 //import android.widget.DatePicker
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,6 +22,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -65,11 +68,15 @@ data class ButtonData(val label: String, val isPressedState: MutableState<Boolea
 fun TransactionScreen(
     navController: NavController,
     sharedViewModel: SharedViewModel,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+
 ) {
 
     var textFieldValue by remember { mutableStateOf(0) }
     var remarksValue by remember { mutableStateOf("") }
+    var categoryValue by remember { mutableStateOf("") }
+    var typeValue by remember { mutableStateOf("") }
+
 
     val buttons = remember {
         listOf(
@@ -230,6 +237,8 @@ fun TransactionScreen(
                 var expanded by remember { mutableStateOf(false) }
                 var selectedOptionText by remember { mutableStateOf(options[0]) }
 
+                typeValue = selectedOptionText
+
                 ExposedDropdownMenuBox(
                     expanded = expanded,
                     onExpandedChange = { expanded = !expanded },
@@ -259,6 +268,7 @@ fun TransactionScreen(
                                 onClick = {
                                     selectedOptionText = selectionOption
                                     expanded = false
+                                    typeValue = selectionOption
                                 },
                                 contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
                             )
@@ -272,6 +282,8 @@ fun TransactionScreen(
                 val options = listOf("Transportation", "Food", "Electronic", "Shop", "Others")
                 var expanded by remember { mutableStateOf(false) }
                 var selectedOptionText by remember { mutableStateOf(options[0]) }
+
+                categoryValue = selectedOptionText
 
                 ExposedDropdownMenuBox(
                     expanded = expanded,
@@ -302,6 +314,7 @@ fun TransactionScreen(
                                 onClick = {
                                     selectedOptionText = selectionOption
                                     expanded = false
+                                    categoryValue = selectionOption
                                 },
                                 contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
                             )
@@ -384,22 +397,19 @@ fun TransactionScreen(
             }
 
             // Button
-            Column(modifier = Modifier.padding(top = 30.dp)) {
-//                val context = LocalContext.current
-
+            Column(
+                modifier = Modifier.padding(top = 30.dp),
+                ) {
                 OutlinedButton(
                     onClick = {
-//                        Toast.makeText(context, "Submitted!", Toast.LENGTH_SHORT).show()
-
                         val transactionData = TransactionData(
                             nominal = textFieldValue,
-                            category = "Food",
-                            date = "21/05/2022",
+                            category = categoryValue,
+                            date = Calendar.getInstance().time,
                             description = remarksValue,
-                            type = "Expense"
+                            type = typeValue
                         )
-
-                        sharedViewModel.saveData(transactionData = transactionData, context = context)
+                        sharedViewModel.saveData(transactionData, context)
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = com.example.kotlin_tracktic.ui.theme.Red30,
@@ -425,9 +435,9 @@ fun TransactionScreen(
             BottomNavigation(navController = navController)
     }
 }}
-
-@Preview
-@Composable
-fun TransactionScreenPreview() {
-    TransactionScreen(navController = NavController(LocalContext.current), onBackClick = {})
-}
+//
+//@Preview
+//@Composable
+//fun TransactionScreenPreview() {
+//    TransactionScreen(navController = NavController(LocalContext.current), onBackClick = {})
+//}

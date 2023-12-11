@@ -2,6 +2,7 @@ package com.example.kotlin_tracktic.util
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
@@ -19,13 +20,19 @@ class SharedViewModel(): ViewModel() {
         context: Context
     ) = CoroutineScope(Dispatchers.IO).launch{
       val db = Firebase.firestore
-//          .document(transactionData.id)
 
-        print("data saved")
+        val data = hashMapOf(
+            "nominal" to transactionData.nominal,
+            "category" to transactionData.category,
+            "date" to transactionData.date,
+            "description" to transactionData.description,
+            "type" to transactionData.type
+
+        )
 
         try {
             db.collection("transactions")
-                .add(transactionData)
+                .add(data)
                 .addOnSuccessListener {
                     Toast.makeText(context, "Data saved", Toast.LENGTH_SHORT).show()
                 }
@@ -78,4 +85,9 @@ class SharedViewModel(): ViewModel() {
             Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
         }
     }
+
+    fun printData(){
+        Log.d("TransactionScreen", "Submitted!")
+    }
+
 }
