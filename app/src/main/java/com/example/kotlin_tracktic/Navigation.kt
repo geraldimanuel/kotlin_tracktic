@@ -1,7 +1,6 @@
 package com.example.kotlin_tracktic
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -38,7 +37,7 @@ fun Navigation(
             MainScreen(
                 name = entry.arguments?.getString("name"),
                 navController = navController,
-//                sharedViewModel = sharedViewModel
+                 sharedViewModel = sharedViewModel
             )
         }
 
