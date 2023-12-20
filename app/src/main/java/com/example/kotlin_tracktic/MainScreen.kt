@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.kotlin_tracktic.ui.theme.Purple40
 import com.example.kotlin_tracktic.util.SharedViewModel
+import com.example.kotlin_tracktic_theincredibles.R
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 //@OptIn(ExperimentalMaterial3Api::class)

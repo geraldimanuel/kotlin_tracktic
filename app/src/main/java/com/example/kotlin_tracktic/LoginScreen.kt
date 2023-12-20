@@ -36,6 +36,9 @@ import com.example.kotlin_tracktic.ui.theme.Red40
 import com.example.kotlin_tracktic.ui.theme.Red30
 import com.example.kotlin_tracktic.ui.theme.Yellow30
 import com.example.kotlin_tracktic.ui.theme.Purple40
+import com.google.firebase.auth.FirebaseAuth
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(navController: NavController) {
@@ -46,6 +49,17 @@ fun LoginScreen(navController: NavController) {
 
     val onClick = {
         navController.navigate(Screen.RegisterScreen.route)
+    }
+
+    val auth = FirebaseAuth.getInstance()
+
+    val loginuser: (String, String) -> Unit = { email, password ->
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    navController.navigate(Screen.StatisticScreen.route)
+                }
+            }
     }
 
     Column(
@@ -119,7 +133,8 @@ fun LoginScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(10.dp))
         Button(
             onClick = {
-                navController.navigate(Screen.StatisticScreen.route)
+//                navController.navigate(Screen.StatisticScreen.route)
+                loginuser(text, password)
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Purple40

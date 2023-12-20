@@ -23,6 +23,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.example.kotlin_tracktic.ui.theme.Kotlin_trackticTheme
 import com.example.kotlin_tracktic.util.SharedViewModel
+import com.google.firebase.FirebaseApp
 
 class MainActivity : ComponentActivity() {
 
@@ -31,6 +32,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+        // Initialize Firebase
+        FirebaseApp.initializeApp(this)
+
         setContent {
            
             Kotlin_trackticTheme {

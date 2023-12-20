@@ -7,5 +7,6 @@ data class TransactionData(
     val category: String,
     val date: Date,
     val description: String,
-    val type: String
+    val type: String,
+//    val uid: String
 )

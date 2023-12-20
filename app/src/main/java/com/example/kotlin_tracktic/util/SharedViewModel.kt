@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.core.content.res.TypedArrayUtils.getString
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
+import com.example.kotlin_tracktic.Screen
 import com.example.kotlin_tracktic_theincredibles.R
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.firebase.Firebase
@@ -29,22 +30,34 @@ class SharedViewModel(): ViewModel() {
     ) = CoroutineScope(Dispatchers.IO).launch{
       val db = Firebase.firestore
 
-        val data = hashMapOf(
-            "nominal" to transactionData.nominal,
-            "category" to transactionData.category,
-            "date" to transactionData.date,
-            "description" to transactionData.description,
-            "type" to transactionData.type
-        )
+        val user = Firebase.auth.currentUser
+        val uid = user?.uid
 
-        try {
-            db.collection("transactions")
-                .add(data)
-                .addOnSuccessListener {
-                    Toast.makeText(context, "Data saved", Toast.LENGTH_SHORT).show()
-                }
-        } catch (e: Exception) {
-            Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+        if (uid != null) {
+            val data = hashMapOf(
+                "nominal" to transactionData.nominal,
+                "category" to transactionData.category,
+                "date" to transactionData.date,
+                "description" to transactionData.description,
+                "type" to transactionData.type,
+                "uid" to uid // Include authenticated user's UID
+            )
+
+            try {
+                db.collection("transactions")
+                    .add(data)
+                    .addOnSuccessListener {
+                        Toast.makeText(context, "Data saved", Toast.LENGTH_SHORT).show()
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(context, "Failed to save data: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+            } catch (e: Exception) {
+                Toast.makeText(context, "Failed to save data: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            // Handle scenario where user is not authenticated
+            Toast.makeText(context, "User not authenticated", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -130,7 +143,7 @@ class SharedViewModel(): ViewModel() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(context, "Sign in success", Toast.LENGTH_SHORT).show()
-                    navController.popBackStack()
+                    navController.navigate(Screen.StatisticScreen.route)
                 } else {
                     Toast.makeText(context, "Sign in failed", Toast.LENGTH_SHORT).show()
                 }
