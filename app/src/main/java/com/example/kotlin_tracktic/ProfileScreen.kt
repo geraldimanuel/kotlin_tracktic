@@ -21,7 +21,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,7 +53,8 @@ import com.example.kotlin_tracktic.ui.theme.Purple40
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileScreen(navController: NavController) {
+fun ProfileScreen(navController: NavController, onBackClick: () -> Unit) {
+
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize()
@@ -105,7 +112,7 @@ fun ProfileScreen(navController: NavController) {
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
-                    ProfileOption(icon = Icons.Filled.Person, label = "Edit Profile", onClick = { }, logoColor = Red30)
+                    ProfileOption(icon = Icons.Filled.Person, label = "Edit Profile", onClick = { navController.navigate(Screen.EditProfileScreen.route) }, logoColor = Red30)
                     Spacer(modifier = Modifier.height(16.dp))
                     Divider()
                     Spacer(modifier = Modifier.height(16.dp))
@@ -145,4 +152,6 @@ fun ProfileOption(icon: ImageVector, label: String, onClick: () -> Unit, logoCol
             Text(text = label, fontSize = 16.sp)
         }
     }
+
 }
+
