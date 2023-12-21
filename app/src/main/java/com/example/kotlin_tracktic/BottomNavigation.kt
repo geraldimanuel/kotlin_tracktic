@@ -70,20 +70,20 @@ fun BottomNavigation (navController: NavController) {
                 unselectedIcon = Icons.Outlined.Share,
                 route = Screen.StatisticScreen.route,
             ),
-            BottomNavigationItem(
-                title = "Add",
-                selectedIcon = Icons.Filled.Add,
-                unselectedIcon = Icons.Outlined.Add,
-                route = Screen.TransactionScreen.route,
-
-            ),
-            BottomNavigationItem(
-                title = "Notif",
-                selectedIcon = Icons.Filled.Notifications,
-                unselectedIcon = Icons.Outlined.Notifications,
-                route = Screen.NotificationScreen.route,
-                badgeCount = 45
-            ),
+//            BottomNavigationItem(
+//                title = "Add",
+//                selectedIcon = Icons.Filled.Add,
+//                unselectedIcon = Icons.Outlined.Add,
+//                route = Screen.TransactionScreen.route,
+//
+//            ),
+//            BottomNavigationItem(
+//                title = "Notif",
+//                selectedIcon = Icons.Filled.Notifications,
+//                unselectedIcon = Icons.Outlined.Notifications,
+//                route = Screen.NotificationScreen.route,
+//                badgeCount = 45
+//            ),
             BottomNavigationItem(
                 title = "Profile",
                 selectedIcon = Icons.Filled.Person,
@@ -100,11 +100,11 @@ fun BottomNavigation (navController: NavController) {
         var selectedItemIndex by rememberSaveable {
             mutableStateOf(0)
         }
-        Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .shadow(20.dp)
-        ) {
+//        Surface(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .shadow(20.dp)
+//        ) {
             Scaffold(
                 bottomBar = {
                     NavigationBar(
@@ -153,24 +153,24 @@ fun BottomNavigation (navController: NavController) {
                                                 colorResource(id = R.color.white)
                                             }
                                         )
-                                        if (index == 2) {
-                                            Box(
-                                                modifier = Modifier
-                                                    .size(56.dp)
-                                                    .background(
-                                                        color = White,
-                                                        shape = MaterialTheme.shapes.small,
-                                                    ),
-                                                contentAlignment = Alignment.Center
-                                            ) {
-                                                Icon(
-                                                    imageVector = item.selectedIcon,
-                                                    contentDescription = item.title,
-                                                    modifier = Modifier.size(24.dp),
-                                                    tint = Color(0xFFE0A9A5),
-                                                )
-                                            }
-                                        }
+//                                        if (index == 2) {
+//                                            Box(
+//                                                modifier = Modifier
+//                                                    .size(56.dp)
+//                                                    .background(
+//                                                        color = White,
+//                                                        shape = MaterialTheme.shapes.small,
+//                                                    ),
+//                                                contentAlignment = Alignment.Center
+//                                            ) {
+//                                                Icon(
+//                                                    imageVector = item.selectedIcon,
+//                                                    contentDescription = item.title,
+//                                                    modifier = Modifier.size(24.dp),
+//                                                    tint = Color(0xFFE0A9A5),
+//                                                )
+//                                            }
+//                                        }
                                     }
                                 }
                             )
@@ -180,5 +180,5 @@ fun BottomNavigation (navController: NavController) {
             ) {
             }
         }
-    }
+//    }
 }

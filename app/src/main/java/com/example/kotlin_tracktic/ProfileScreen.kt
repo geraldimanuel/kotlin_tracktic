@@ -117,10 +117,6 @@ fun ProfileScreen(navController: NavController, onBackClick: () -> Unit) {
                     Spacer(modifier = Modifier.height(16.dp))
                     Divider()
                     Spacer(modifier = Modifier.height(16.dp))
-                    ProfileOption(icon = Icons.Filled.Lock, label = "Terms & Conditions", onClick = { }, logoColor = Purple40)
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Divider()
-                    Spacer(modifier = Modifier.height(16.dp))
                     ProfileOption(icon = Icons.Filled.ExitToApp, label = "Log Out", onClick = { }, logoColor = Yellow30)
                 }
             }
