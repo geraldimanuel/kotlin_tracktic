@@ -128,13 +128,21 @@ fun MainScreen(name: String?, navController: NavController, sharedViewModel: Sha
             }
             items(data.size) {
                 data.forEach {
+
+                    val image = when (it.category) {
+                        "Food" -> R.drawable.food
+                        "Electronic" -> R.drawable.electronic
+                        "Transportation" -> R.drawable.transportation
+                        else -> R.drawable.shop
+                    }
+
                     ExpenseCard(
                         modifier = Modifier,
                         it.date,
                         it.nominal.toString(),
                         it.desc,
                         it.type,
-                        it.type
+                        image
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                 }
@@ -295,7 +303,7 @@ fun ExpenseCard(
     price: String,
     title: String,
     category: String,
-    totalPrice: String
+    image: Int
 ) {
     Card(
         modifier = modifier
@@ -322,7 +330,7 @@ fun ExpenseCard(
                         color = Color.Black
                     )
                     Text(
-                        text = totalPrice,
+                        text = "Delete",
                         color = Color.Black
                     )
                 }
@@ -338,7 +346,7 @@ fun ExpenseCard(
                             modifier = Modifier
                                 .height(50.dp)
                                 .width(50.dp),
-                            painter = painterResource(id = R.drawable.Food),
+                            painter = painterResource(image),
                             contentDescription = "icon"
                         )
                         Spacer(modifier = Modifier.width(16.dp))
