@@ -215,8 +215,7 @@ class SharedViewModel(): ViewModel() {
         email: String,
         password: String,
         context: Context,
-        navController: NavController,
-        backToMainScreen: () -> Unit
+        navController: NavController
     ) = CoroutineScope(Dispatchers.IO).launch{
         // auth = FirebaseAuth.getInstance()
         auth = Firebase.auth
@@ -256,7 +255,6 @@ class SharedViewModel(): ViewModel() {
         password: String,
         context: Context,
         navController: NavController,
-        backToMainScreen: () -> Unit
     ) = CoroutineScope(Dispatchers.IO).launch {
         val auth = FirebaseAuth.getInstance()
 
@@ -269,8 +267,7 @@ class SharedViewModel(): ViewModel() {
                             val token = result.token
                             saveAuthToken(context, token)
                             Toast.makeText(context, "Sign in success", Toast.LENGTH_SHORT).show()
-                            navController.navigate(Screen.StatisticScreen.route)
-                        }
+                            navController.navigate(Screen.MainScreen.route)                        }
                         ?.addOnFailureListener {
                             Toast.makeText(context, "Failed to get user token", Toast.LENGTH_SHORT).show()
                         }

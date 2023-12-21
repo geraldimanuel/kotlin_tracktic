@@ -53,6 +53,7 @@ fun LoginScreen(navController: NavController) {
     val onClick = {
         navController.navigate(Screen.RegisterScreen.route)
     }
+
     val context = LocalContext.current
 
     Column(
@@ -64,7 +65,7 @@ fun LoginScreen(navController: NavController) {
             .padding(horizontal = 50.dp)
     ) {
         Text(
-            text = "UNION v.2",
+            text = "TRACKTIC",
             style = TextStyle(
                 fontSize = 24.sp,
                 fontWeight = FontWeight.W800
@@ -126,7 +127,7 @@ fun LoginScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(10.dp))
         Button(
             onClick = {
-                      SharedViewModel().signIn(text, password, context, navController= navController, backToMainScreen = onClick)
+                SharedViewModel().signIn(text, password, context, navController= navController)
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Purple40
@@ -138,19 +139,6 @@ fun LoginScreen(navController: NavController) {
         }
         Spacer(modifier = Modifier.height(10.dp))
         Divider()
-        Spacer(modifier = Modifier.height(10.dp))
-        Button(
-            onClick = {
-                navController.navigate(Screen.StatisticScreen.route)
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Red40
-            ),
-            modifier = Modifier.align(Alignment.End)
-                .fillMaxWidth()
-        ) {
-            Text(text = "Sign In With Gulugulu")
-        }
         Spacer(modifier = Modifier.height(10.dp))
         Button(
             onClick = {

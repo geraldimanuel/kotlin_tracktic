@@ -53,10 +53,6 @@ fun RegisterScreen(navController: NavController) {
 
     var passwordconfirm by rememberSaveable { mutableStateOf("") }
 
-    val onClick = {
-        navController.navigate(Screen.LoginScreen.route)
-    }
-
     val context = LocalContext.current
 
     Column(
@@ -68,7 +64,7 @@ fun RegisterScreen(navController: NavController) {
             .padding(horizontal = 50.dp)
     ) {
         Text(
-            text = "UNION v.2",
+            text = "TRACKTIC",
             style = TextStyle(
                 fontSize = 24.sp,
                 fontWeight = FontWeight.W800
@@ -162,8 +158,7 @@ fun RegisterScreen(navController: NavController) {
                     email = text,
                     password = password,
                     context = context,
-                    navController = navController,
-                    backToMainScreen = onClick
+                    navController = navController
                 )
             },
             colors = ButtonDefaults.buttonColors(
@@ -176,19 +171,6 @@ fun RegisterScreen(navController: NavController) {
         }
         Spacer(modifier = Modifier.height(10.dp))
         Divider()
-        Spacer(modifier = Modifier.height(10.dp))
-        Button(
-            onClick = {
-                navController.navigate(Screen.StatisticScreen.route)
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Red40
-            ),
-            modifier = Modifier.align(Alignment.End)
-                .fillMaxWidth()
-        ) {
-            Text(text = "Sign Up With Gulugulu")
-        }
         Spacer(modifier = Modifier.height(10.dp))
         Button(
             onClick = {

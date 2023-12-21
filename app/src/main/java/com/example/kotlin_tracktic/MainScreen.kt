@@ -5,9 +5,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -25,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import com.example.kotlin_tracktic.ui.theme.Purple40
 import com.example.kotlin_tracktic.util.SharedViewModel
@@ -35,45 +39,82 @@ import com.google.firebase.auth.FirebaseAuth
 //@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(navController: NavController, sharedViewModel: SharedViewModel) {
+
+    val data = listOf(
+        Transactions("Food", "Monday, 09", "Happy Meal", 2500, "Expense"),
+        Transactions("Electronic", "Monday, 08", "Transportation", 2500, "Expense"),
+        Transactions("Food", "Monday, 09", "Happy Meal", 2500, "Expense"),
+        Transactions("Electronic", "Monday, 08", "Transportation", 2500, "Expense"),
+        Transactions("Electronic", "Monday, 08", "Transportation", 2500, "Expense"),
+        Transactions("Food", "Monday, 09", "Happy Meal", 2500, "Expense"),
+        Transactions("Electronic", "Monday, 08", "Transportation", 2500, "Expense"),
+    )
+
     val auth = FirebaseAuth.getInstance()
 
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Column(
-            horizontalAlignment = CenterHorizontally
+    Box(modifier = Modifier.fillMaxSize()) {
+        val backgroundColor = Color(0xFFFF3881)
+        val contentColor = Color.White
+        androidx.compose.material3.FloatingActionButton(
+            modifier = Modifier
+                .padding(
+                    start = 16.dp,
+                    top = 16.dp,
+                    end = 16.dp,
+                    bottom = 100.dp
+                )
+                .align(alignment = Alignment.BottomEnd)
+                .zIndex(10f),
+            onClick = {
+                navController.navigate(Screen.TransactionScreen.route)
+            },
+            containerColor = backgroundColor,
+            contentColor = contentColor
         ) {
-//            Text(text = "Hello, $name")
-            Column (
-                modifier = Modifier
-                    .padding(20.dp),
-            ) {
-                Row (
+            androidx.compose.material3.Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = "add icon"
+            )
+        }
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    start = 20.dp,
+                    top = 20.dp,
+                    end = 20.dp,
+                    bottom = 100.dp
+                )
+                .zIndex(1f)
+        ) {
+            item {
+                Row(
                     modifier = Modifier
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    Text(modifier = Modifier.padding(top = 12.dp), text = "Logo", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
-                    androidx.compose.material3.Icon(
-                        modifier = Modifier
-                            .height(50.dp),
-                        painter = painterResource(id = R.drawable.baseline_search_24),
-                        contentDescription = "Search"
+                    Text(
+                        modifier = Modifier.padding(top = 12.dp),
+                        text = "Tracktic",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-
+            }
+            item {
                 Profile(
                     painter = painterResource(id = R.drawable.cinammoroll),
                     contentDescription = "Happy Meal",
                     name = auth.currentUser?.displayName.toString()
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-
+            }
+            item {
                 MoneyCard(modifier = Modifier)
                 Spacer(modifier = Modifier.height(16.dp))
-
+            }
+            item {
                 Text(
                     text = "Expense List",
                     fontSize = 20.sp,
@@ -82,16 +123,75 @@ fun MainScreen(navController: NavController, sharedViewModel: SharedViewModel) {
                         .fillMaxWidth()
                 )
                 Spacer(modifier = Modifier.height(16.dp))
+            }
+            items(data.size) {
+                data.forEach {
+                    ExpenseCard(
+                        modifier = Modifier,
+                        it.date,
+                        it.nominal.toString(),
+                        it.desc,
+                        it.type,
+                        it.type
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
 
-                ExpenseCard(modifier = Modifier, "Monday, 09", "- Rp 2,500", "Happy Meal", "Shop", "- Rp 5,000")
-                Spacer(modifier = Modifier.height(16.dp))
-
-                ExpenseCard(modifier = Modifier, "Monday, 08", "- Rp 2,500", "Electronic", "Transportation", "- Rp 5,000")
             }
 
-            BottomNavigation(navController = navController)
+        }
+        Column(
+            modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter),
+        ) {
+//            val backgroundColor = Color(0xFFFF3881)
+//            val contentColor = Color.White
+
+            Box(modifier = Modifier.fillMaxSize()) {
+                BottomNavigation(navController = navController)
+//        androidx.compose.material3.FloatingActionButton(
+//            modifier = Modifier
+//                .padding(
+//                    start = 16.dp,
+//                    top = 16.dp,
+//                    end = 16.dp,
+//                    bottom = 100.dp
+//                )
+//                .align(alignment = Alignment.BottomEnd)
+//                .zIndex(10f),
+//            onClick = {
+//                navController.navigate(Screen.TransactionScreen.route)
+//            },
+//            containerColor = backgroundColor,
+//            contentColor = contentColor
+//        ) {
+//            androidx.compose.material3.Icon(
+//                imageVector = Icons.Default.Add,
+//                contentDescription = "add icon"
+//            )
+//        }
+            }
         }
     }
+
+////    BottomNavigation(navController = navController)
+//    Box(
+//        contentAlignment = Alignment.Center,
+//        modifier = Modifier.fillMaxSize()
+//    ) {
+//        Column(
+//            horizontalAlignment = CenterHorizontally
+//        ) {
+////            Text(text = "Hello, $name")
+//            Column (
+//                modifier = Modifier
+//                    .padding(20.dp),
+//            ) {
+//
+//            }
+//
+//            BottomNavigation(navController = navController)
+//        }
+//    }
 }
 
 @Composable
@@ -107,7 +207,7 @@ fun Profile(
         Row (
             modifier = Modifier
                 .fillMaxWidth()
-                ) {
+        ) {
             Image(
                 painter = painter,
                 contentDescription = contentDescription,
@@ -123,22 +223,22 @@ fun Profile(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Morning,",
+                    text = "Hello, "+name+"!",
                     color = Color.Black
                 )
-                Text(
-                    text = name,
-                    color = Color.Black
-                )
+//                Text(
+//                    text = name,
+//                    color = Color.Black
+//                )
             }
-            Spacer(modifier = Modifier.width(144.dp))
-            Text(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .wrapContentHeight(Alignment.CenterVertically),
-                text = "Dropdown",
-                color = Color.Black
-            )
+//            Spacer(modifier = Modifier.width(144.dp))
+//            Text(
+//                modifier = Modifier
+//                    .fillMaxHeight()
+//                    .wrapContentHeight(Alignment.CenterVertically),
+//                text = "Dropdown",
+//                color = Color.Black
+//            )
         }
     }
 }
@@ -154,7 +254,7 @@ fun MoneyCard(
         colors = CardDefaults.cardColors(Purple40)
     ) {
         Box(modifier = Modifier
-            .height(150.dp)
+            .height(165.dp)
             .padding(20.dp)
         ) {
             Column (
@@ -173,14 +273,16 @@ fun MoneyCard(
                     text = "Rp 7,500",
                     modifier = Modifier
                         .fillMaxWidth(),
-                    color = Color.White
+                    color = Color.White,
+                    fontSize = 24.sp, // Adjust the font size as needed
+                    fontWeight = FontWeight.Bold // Optionally, adjust the font weight
                 )
-                Text(
-                    text = " Rp 1,000 than last month",
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    color = Color.White
-                )
+//                Text(
+//                    text = " Rp 1,000 than last month",
+//                    modifier = Modifier
+//                        .fillMaxWidth(),
+//                    color = Color.White
+//                )
             }
         }
     }
@@ -197,13 +299,12 @@ fun ExpenseCard(
 ) {
     Card(
         modifier = modifier
-//            .height(100.dp)
             .background(Color.White)
             .border(1.dp, Color.LightGray, RoundedCornerShape(15.dp)),
         colors = CardDefaults.cardColors(Color.White)
     ) {
         Box(modifier = Modifier
-            .height(200.dp)
+            .height(150.dp)
             .padding(20.dp)
         ) {
             Column (
@@ -257,42 +358,15 @@ fun ExpenseCard(
                         color = Color.Black
                     )
                 }
-                Row (
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    Row {
-                        Image(
-                            modifier = Modifier
-                                .height(50.dp)
-                                .width(50.dp),
-                            painter = painterResource(id = R.drawable.shop),
-                            contentDescription = "icon"
-                        )
-                        Spacer(modifier = Modifier.width(16.dp))
-                        Column {
-                            Text(
-                                text = category,
-                                color = Color.Black
-                            )
-                            Text(
-                                text = title,
-                                color = Color.Black
-                            )
-                        }
-                    }
-                    Text(
-                        text = price,
-                        color = Color.Black
-                    )
-                }
             }
         }
     }
 }
 
-//@Preview
-//@Composable
-//fun DefaultPreview() {
-//    MainScreen(name = "Bella", navController = NavController(LocalContext.current), sharedViewModel = SharedViewModel())
-//}
+data class Transactions(
+    val category: String,
+    val date: String,
+    val desc: String,
+    val nominal: Number,
+    val type: String
+)
