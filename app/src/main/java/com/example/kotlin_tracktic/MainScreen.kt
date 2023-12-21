@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -35,61 +36,87 @@ import com.example.kotlin_tracktic_theincredibles.R
 @Composable
 fun MainScreen(name: String?, navController: NavController, sharedViewModel: SharedViewModel) {
 
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
+    val data = listOf(
+        Transactions("Food", "Monday, 09", "Happy Meal", 2500, "Expense"),
+        Transactions("Electronic", "Monday, 08", "Transportation", 2500, "Expense"),
+        Transactions("Food", "Monday, 09", "Happy Meal", 2500, "Expense"),
+    )
+
+    LazyColumn (
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(20.dp)
     ) {
-        Column(
-            horizontalAlignment = CenterHorizontally
-        ) {
-//            Text(text = "Hello, $name")
-            Column (
+        item {
+            Row (
                 modifier = Modifier
-                    .padding(20.dp),
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                Row (
+                Text(modifier = Modifier.padding(top = 12.dp), text = "Logo", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
+                androidx.compose.material3.Icon(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    Text(modifier = Modifier.padding(top = 12.dp), text = "Logo", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
-                    androidx.compose.material3.Icon(
-                        modifier = Modifier
-                            .height(50.dp),
-                        painter = painterResource(id = R.drawable.baseline_search_24),
-                        contentDescription = "Search"
-                    )
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Profile(
-                    painter = painterResource(id = R.drawable.cinammoroll),
-                    contentDescription = "Happy Meal",
-                    name = name ?: "Bella"
+                        .height(50.dp),
+                    painter = painterResource(id = R.drawable.baseline_search_24),
+                    contentDescription = "Search"
                 )
-                Spacer(modifier = Modifier.height(16.dp))
-
-                MoneyCard(modifier = Modifier)
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = "Expense List",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-
-                ExpenseCard(modifier = Modifier, "Monday, 09", "- Rp 2,500", "Happy Meal", "Shop", "- Rp 5,000")
-                Spacer(modifier = Modifier.height(16.dp))
-
-                ExpenseCard(modifier = Modifier, "Monday, 08", "- Rp 2,500", "Electronic", "Transportation", "- Rp 5,000")
             }
-
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+        item {
+            Profile(
+                painter = painterResource(id = R.drawable.cinammoroll),
+                contentDescription = "Happy Meal",
+                name = name ?: "Bella"
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+        item {
+            MoneyCard(modifier = Modifier)
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+        item {
+            Text(
+                text = "Expense List",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+        items(data.size) { index ->
+            ExpenseCard(modifier = Modifier, "Monday, 09", "- Rp 2,500", "Happy Meal", "Shop", "- Rp 5,000")
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+        item {
             BottomNavigation(navController = navController)
         }
+
     }
+
+//    Box(
+//        contentAlignment = Alignment.Center,
+//        modifier = Modifier.fillMaxSize()
+//    ) {
+//        Column(
+//            horizontalAlignment = CenterHorizontally
+//        ) {
+////            Text(text = "Hello, $name")
+//            Column (
+//                modifier = Modifier
+//                    .padding(20.dp),
+//            ) {
+//
+//
+//
+//
+//
+//            }
+//
+//            BottomNavigation(navController = navController)
+//        }
+//    }
 }
 
 @Composable
@@ -195,7 +222,6 @@ fun ExpenseCard(
 ) {
     Card(
         modifier = modifier
-//            .height(100.dp)
             .background(Color.White)
             .border(1.dp, Color.LightGray, RoundedCornerShape(15.dp)),
         colors = CardDefaults.cardColors(Color.White)
@@ -226,6 +252,8 @@ fun ExpenseCard(
                 Spacer(modifier = Modifier.height(2.dp))
                 Divider(color = Color.LightGray, thickness = 1.dp)
                 Spacer(modifier = Modifier.height(2.dp))
+
+
                 Row (
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -255,6 +283,7 @@ fun ExpenseCard(
                         color = Color.Black
                     )
                 }
+
                 Row (
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -264,7 +293,7 @@ fun ExpenseCard(
                             modifier = Modifier
                                 .height(50.dp)
                                 .width(50.dp),
-                            painter = painterResource(id = R.drawable.shop),
+                            painter = painterResource(id = R.drawable.food),
                             contentDescription = "icon"
                         )
                         Spacer(modifier = Modifier.width(16.dp))
@@ -294,3 +323,11 @@ fun ExpenseCard(
 fun DefaultPreview() {
     MainScreen(name = "Bella", navController = NavController(LocalContext.current), sharedViewModel = SharedViewModel())
 }
+
+data class Transactions(
+    val category: String,
+    val date: String,
+    val desc: String,
+    val nominal: Number,
+    val type: String
+)
