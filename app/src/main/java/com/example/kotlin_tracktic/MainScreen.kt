@@ -40,6 +40,10 @@ fun MainScreen(name: String?, navController: NavController, sharedViewModel: Sha
         Transactions("Food", "Monday, 09", "Happy Meal", 2500, "Expense"),
         Transactions("Electronic", "Monday, 08", "Transportation", 2500, "Expense"),
         Transactions("Food", "Monday, 09", "Happy Meal", 2500, "Expense"),
+        Transactions("Electronic", "Monday, 08", "Transportation", 2500, "Expense"),
+        Transactions("Electronic", "Monday, 08", "Transportation", 2500, "Expense"),
+        Transactions("Food", "Monday, 09", "Happy Meal", 2500, "Expense"),
+        Transactions("Electronic", "Monday, 08", "Transportation", 2500, "Expense"),
     )
 
     LazyColumn (
@@ -53,7 +57,7 @@ fun MainScreen(name: String?, navController: NavController, sharedViewModel: Sha
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                Text(modifier = Modifier.padding(top = 12.dp), text = "Logo", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
+                Text(modifier = Modifier.padding(top = 12.dp), text = "Tracktic", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
                 androidx.compose.material3.Icon(
                     modifier = Modifier
                         .height(50.dp),
@@ -85,9 +89,12 @@ fun MainScreen(name: String?, navController: NavController, sharedViewModel: Sha
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
-        items(data.size) { index ->
-            ExpenseCard(modifier = Modifier, "Monday, 09", "- Rp 2,500", "Happy Meal", "Shop", "- Rp 5,000")
-            Spacer(modifier = Modifier.height(16.dp))
+        items(data.size) {
+            data.forEach {
+                ExpenseCard(modifier = Modifier, it.date, it.nominal.toString(), it.desc, it.type, it.type)
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
         }
         item {
             BottomNavigation(navController = navController)
@@ -107,10 +114,6 @@ fun MainScreen(name: String?, navController: NavController, sharedViewModel: Sha
 //                modifier = Modifier
 //                    .padding(20.dp),
 //            ) {
-//
-//
-//
-//
 //
 //            }
 //
@@ -227,7 +230,7 @@ fun ExpenseCard(
         colors = CardDefaults.cardColors(Color.White)
     ) {
         Box(modifier = Modifier
-            .height(200.dp)
+            .height(150.dp)
             .padding(20.dp)
         ) {
             Column (
@@ -252,38 +255,6 @@ fun ExpenseCard(
                 Spacer(modifier = Modifier.height(2.dp))
                 Divider(color = Color.LightGray, thickness = 1.dp)
                 Spacer(modifier = Modifier.height(2.dp))
-
-
-                Row (
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    Row {
-                        Image(
-                            modifier = Modifier
-                                .height(50.dp)
-                                .width(50.dp),
-                            painter = painterResource(id = R.drawable.food),
-                            contentDescription = "icon"
-                        )
-                        Spacer(modifier = Modifier.width(16.dp))
-                        Column {
-                            Text(
-                                text = category,
-                                color = Color.Black
-                            )
-                            Text(
-                                text = title,
-                                color = Color.Black
-                            )
-                        }
-                    }
-                    Text(
-                        text = price,
-                        color = Color.Black
-                    )
-                }
-
                 Row (
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
