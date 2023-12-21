@@ -37,9 +37,13 @@ import com.example.kotlin_tracktic.ui.theme.Red40
 import com.example.kotlin_tracktic.ui.theme.Red30
 import com.example.kotlin_tracktic.ui.theme.Yellow30
 import com.example.kotlin_tracktic.ui.theme.Purple40
+import com.google.firebase.auth.FirebaseAuth
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(navController: NavController) {
+
+
     var text by remember {
         mutableStateOf("")
     }
@@ -48,7 +52,31 @@ fun RegisterScreen(navController: NavController) {
     var passwordconfirm by rememberSaveable { mutableStateOf("") }
 
     val onClick = {
-        navController.navigate(Screen.RegisterScreen.route)
+        navController.navigate(Screen.LoginScreen.route)
+    }
+
+    // Firebase Auth instance
+    val auth = FirebaseAuth.getInstance()
+
+    // Function to handle user registration
+    val registerUser: (String, String) -> Unit = { email, password ->
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Registration success, handle UI accordingly
+                    val user = auth.currentUser
+                    // Update UI or navigate to the next screen
+                    navController.navigate(Screen.LoginScreen.route)
+                } else {
+                    // Registration failed, handle the error
+                    // You can display a message or handle it in any way you prefer
+                    // For example:
+                    val errorMessage = task.exception?.message ?: "Authentication failed."
+                    // Display error message or handle UI update
+                    // Here you might want to show an error message to the user
+                    // or handle it based on your UI/UX flow
+                }
+            }
     }
 
     Column(
@@ -150,7 +178,8 @@ fun RegisterScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(10.dp))
         Button(
             onClick = {
-                navController.navigate(Screen.StatisticScreen.route)
+//                navController.navigate(Screen.StatisticScreen.route)
+                registerUser(text, password)
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Purple40

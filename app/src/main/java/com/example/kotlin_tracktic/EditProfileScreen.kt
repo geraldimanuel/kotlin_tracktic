@@ -52,6 +52,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.kotlin_tracktic_theincredibles.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
