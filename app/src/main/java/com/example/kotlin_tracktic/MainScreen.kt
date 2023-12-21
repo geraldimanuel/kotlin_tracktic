@@ -17,7 +17,6 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -339,7 +338,7 @@ fun ExpenseCard(
                             modifier = Modifier
                                 .height(50.dp)
                                 .width(50.dp),
-                            painter = painterResource(id = R.drawable.food),
+                            painter = painterResource(id = R.drawable.Food),
                             contentDescription = "icon"
                         )
                         Spacer(modifier = Modifier.width(16.dp))
