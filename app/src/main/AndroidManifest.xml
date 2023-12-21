@@ -15,7 +15,6 @@
         <activity
             android:name="com.example.kotlin_tracktic.MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.Kotlin_tracktic">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

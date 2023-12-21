@@ -2,7 +2,6 @@ package com.example.kotlin_tracktic
 
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -37,17 +36,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.kotlin_tracktic_theincredibles.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -101,16 +97,16 @@ fun EditProfileScreen(navController: NavController, onBackClick: () -> Unit) {
             }
 
             Column(modifier = Modifier.padding(top = 5.dp)) {
-                Image(
-                    painter = painterResource(id =  R.drawable.chaeunwoo),
-
-                    contentDescription = "Profile Picture",
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .size(100.dp)
-                        .clip(RoundedCornerShape(50))
-                        .background(Color.LightGray)
-                )
+//                Image(
+//                    painter = painterResource(id = R.drawable.chaeunwoo),
+//
+//                    contentDescription = "Profile Picture",
+//                    modifier = Modifier
+//                        .align(Alignment.CenterHorizontally)
+//                        .size(100.dp)
+//                        .clip(RoundedCornerShape(50))
+//                        .background(Color.LightGray)
+//                )
                 Row {
                     Text(
                         text = "Change Profile Picture",
