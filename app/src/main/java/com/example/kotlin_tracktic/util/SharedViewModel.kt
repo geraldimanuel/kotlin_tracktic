@@ -62,28 +62,40 @@ class SharedViewModel(): ViewModel() {
     }
 
     fun retrieveData(
-        user: String,
+        category: String,
+        type: String,
         context: Context,
-//        data: (TransactionData) -> Unit
+        data: (TransactionData) -> Unit
     ) = CoroutineScope(Dispatchers.IO).launch{
 
         val db = Firebase.firestore
-        try {
-            db.collection("transactions")
-//                .whereEqualTo("category", user)
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        Log.d("debug data","${document.id} => ${document.data}")
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    Log.w("Error getting documents: ", exception)
-                }
-        } catch (e: Exception) {
-            Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
-        }
 
+
+        val user = Firebase.auth.currentUser
+        val uid = user?.uid
+
+        if (user!= null) {
+            try {
+                db.collection("transactions")
+                    .whereEqualTo("uid", uid)
+                    .whereEqualTo("category", category)
+                    .whereEqualTo("type", type)
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        for (document in documents) {
+                            Log.d("debug data","${document.id} => ${document.data}")
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.w("Error getting documents: ", exception)
+                    }
+            } catch (e: Exception) {
+                Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+            }
+        }  else {
+            // Handle scenario where user is not authenticated
+            Toast.makeText(context, "User not authenticated", Toast.LENGTH_SHORT).show()
+        }
     }
 
     fun deleteData(
@@ -122,7 +134,7 @@ class SharedViewModel(): ViewModel() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(context, "Sign up success", Toast.LENGTH_SHORT).show()
-                    navController.popBackStack()
+                    navController.navigate(Screen.LoginScreen.route)
                 } else {
                     Toast.makeText(context, "Sign up failed", Toast.LENGTH_SHORT).show()
                 }
@@ -168,6 +180,11 @@ class SharedViewModel(): ViewModel() {
                     .setFilterByAuthorizedAccounts(true)
                     .build())
             .build()
+    }
+
+    fun printTest () {
+        // print in logcat
+        Log.d("debug", "test")
     }
 
 }

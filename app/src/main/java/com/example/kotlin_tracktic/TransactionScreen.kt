@@ -56,6 +56,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import androidx.compose.material3.DatePicker
 
 data class ButtonData(val label: String, val isPressedState: MutableState<Boolean>)
 
@@ -271,8 +272,8 @@ fun TransactionScreen(
                             label = { Text("Type") },
                             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                             colors = ExposedDropdownMenuDefaults.textFieldColors(
-                                containerColor = Color.White,
-                                textColor = Color.Black,
+//                                containerColor = Color.White,
+//                                textColor = Color.Black,
                                 focusedIndicatorColor = Color.Transparent
                             ),
                             shape = RoundedCornerShape(20),
@@ -319,8 +320,8 @@ fun TransactionScreen(
                             label = { Text("Category") },
                             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                             colors = ExposedDropdownMenuDefaults.textFieldColors(
-                                containerColor = Color.White,
-                                textColor = Color.Black,
+//                                containerColor = Color.White,
+//                                textColor = Color.Black,
                                 focusedIndicatorColor = Color.Transparent
                             ),
                             shape = RoundedCornerShape(20),
@@ -365,8 +366,8 @@ fun TransactionScreen(
                             label = { Text("Date") },
                             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                             colors = ExposedDropdownMenuDefaults.textFieldColors(
-                                containerColor = Color.White,
-                                textColor = Color.Black,
+//                                containerColor = Color.White,
+//                                textColor = Color.Black,
                                 focusedIndicatorColor = Color.Transparent
                             ),
                             shape = RoundedCornerShape(20),

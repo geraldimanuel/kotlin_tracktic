@@ -37,6 +37,9 @@ class MainActivity : ComponentActivity() {
         // Initialize Firebase
         FirebaseApp.initializeApp(this)
 
+
+
+
         setContent {
            
             Kotlin_trackticTheme {
