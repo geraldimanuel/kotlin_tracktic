@@ -96,12 +96,6 @@ fun MainScreen(name: String?, navController: NavController, sharedViewModel: Sha
                         fontSize = 20.sp,
                         fontWeight = FontWeight.SemiBold
                     )
-                    androidx.compose.material3.Icon(
-                        modifier = Modifier
-                            .height(50.dp),
-                        painter = painterResource(id = R.drawable.baseline_search_24),
-                        contentDescription = "Search"
-                    )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
             }
@@ -226,22 +220,22 @@ fun Profile(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Morning,",
+                    text = "Hello, "+name+"!",
                     color = Color.Black
                 )
-                Text(
-                    text = name,
-                    color = Color.Black
-                )
+//                Text(
+//                    text = name,
+//                    color = Color.Black
+//                )
             }
-            Spacer(modifier = Modifier.width(144.dp))
-            Text(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .wrapContentHeight(Alignment.CenterVertically),
-                text = "Dropdown",
-                color = Color.Black
-            )
+//            Spacer(modifier = Modifier.width(144.dp))
+//            Text(
+//                modifier = Modifier
+//                    .fillMaxHeight()
+//                    .wrapContentHeight(Alignment.CenterVertically),
+//                text = "Dropdown",
+//                color = Color.Black
+//            )
         }
     }
 }
@@ -257,7 +251,7 @@ fun MoneyCard(
         colors = CardDefaults.cardColors(Purple40)
     ) {
         Box(modifier = Modifier
-            .height(150.dp)
+            .height(165.dp)
             .padding(20.dp)
         ) {
             Column (
@@ -276,14 +270,16 @@ fun MoneyCard(
                     text = "Rp 7,500",
                     modifier = Modifier
                         .fillMaxWidth(),
-                    color = Color.White
+                    color = Color.White,
+                    fontSize = 24.sp, // Adjust the font size as needed
+                    fontWeight = FontWeight.Bold // Optionally, adjust the font weight
                 )
-                Text(
-                    text = " Rp 1,000 than last month",
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    color = Color.White
-                )
+//                Text(
+//                    text = " Rp 1,000 than last month",
+//                    modifier = Modifier
+//                        .fillMaxWidth(),
+//                    color = Color.White
+//                )
             }
         }
     }
