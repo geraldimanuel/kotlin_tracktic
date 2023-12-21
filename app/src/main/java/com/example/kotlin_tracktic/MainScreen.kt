@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -14,7 +15,6 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -28,66 +28,70 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.kotlin_tracktic.ui.theme.Purple40
 import com.example.kotlin_tracktic.util.SharedViewModel
-import com.example.kotlin_tracktic_theincredibles.R
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 //@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(name: String?, navController: NavController, sharedViewModel: SharedViewModel) {
 
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Column(
-            horizontalAlignment = CenterHorizontally
-        ) {
-//            Text(text = "Hello, $name")
-            Column (
-                modifier = Modifier
-                    .padding(20.dp),
+    LazyColumn {
+        item {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxSize()
             ) {
-                Row (
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(modifier = Modifier.padding(top = 12.dp), text = "Logo", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
-                    androidx.compose.material3.Icon(
+//            Text(text = "Hello, $name")
+                    Column (
                         modifier = Modifier
-                            .height(50.dp),
-                        painter = painterResource(id = R.drawable.baseline_search_24),
-                        contentDescription = "Search"
-                    )
+                            .padding(20.dp),
+                    ) {
+                        Row (
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                        ) {
+                            Text(modifier = Modifier.padding(top = 12.dp), text = "Logo", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
+                            androidx.compose.material3.Icon(
+                                modifier = Modifier
+                                    .height(50.dp),
+                                painter = painterResource(id = R.drawable.baseline_search_24),
+                                contentDescription = "Search"
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Profile(
+                            painter = painterResource(id = R.drawable.cinammoroll),
+                            contentDescription = "Happy Meal",
+                            name = name ?: "Bella"
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        MoneyCard(modifier = Modifier)
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Text(
+                            text = "Expense List",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        ExpenseCard(modifier = Modifier, "Monday, 09", "- Rp 2,500", "Happy Meal", "Shop", "- Rp 5,000")
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        ExpenseCard(modifier = Modifier, "Monday, 08", "- Rp 2,500", "Electronic", "Transportation", "- Rp 5,000")
+                        ExpenseCard(modifier = Modifier, "Monday, 08", "- Rp 2,500", "Electronic", "Transportation", "- Rp 5,000")
+                    }
+
+                    BottomNavigation(navController = navController)
                 }
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Profile(
-                    painter = painterResource(id = R.drawable.cinammoroll),
-                    contentDescription = "Happy Meal",
-                    name = name ?: "Bella"
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-
-                MoneyCard(modifier = Modifier)
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = "Expense List",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-
-                ExpenseCard(modifier = Modifier, "Monday, 09", "- Rp 2,500", "Happy Meal", "Shop", "- Rp 5,000")
-                Spacer(modifier = Modifier.height(16.dp))
-
-                ExpenseCard(modifier = Modifier, "Monday, 08", "- Rp 2,500", "Electronic", "Transportation", "- Rp 5,000")
             }
-
-            BottomNavigation(navController = navController)
         }
     }
 }
