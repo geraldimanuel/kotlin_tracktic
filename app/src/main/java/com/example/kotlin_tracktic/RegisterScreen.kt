@@ -25,6 +25,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -37,6 +38,7 @@ import com.example.kotlin_tracktic.ui.theme.Red40
 import com.example.kotlin_tracktic.ui.theme.Red30
 import com.example.kotlin_tracktic.ui.theme.Yellow30
 import com.example.kotlin_tracktic.ui.theme.Purple40
+import com.example.kotlin_tracktic.util.SharedViewModel
 import com.google.firebase.auth.FirebaseAuth
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,29 +57,7 @@ fun RegisterScreen(navController: NavController) {
         navController.navigate(Screen.LoginScreen.route)
     }
 
-    // Firebase Auth instance
-    val auth = FirebaseAuth.getInstance()
-
-    // Function to handle user registration
-    val registerUser: (String, String) -> Unit = { email, password ->
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    // Registration success, handle UI accordingly
-                    val user = auth.currentUser
-                    // Update UI or navigate to the next screen
-                    navController.navigate(Screen.LoginScreen.route)
-                } else {
-                    // Registration failed, handle the error
-                    // You can display a message or handle it in any way you prefer
-                    // For example:
-                    val errorMessage = task.exception?.message ?: "Authentication failed."
-                    // Display error message or handle UI update
-                    // Here you might want to show an error message to the user
-                    // or handle it based on your UI/UX flow
-                }
-            }
-    }
+    val context = LocalContext.current
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -178,8 +158,13 @@ fun RegisterScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(10.dp))
         Button(
             onClick = {
-//                navController.navigate(Screen.StatisticScreen.route)
-                registerUser(text, password)
+                SharedViewModel().signUp(
+                    email = text,
+                    password = password,
+                    context = context,
+                    navController = navController,
+                    backToMainScreen = onClick
+                )
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Purple40

@@ -24,6 +24,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -36,7 +37,9 @@ import com.example.kotlin_tracktic.ui.theme.Red40
 import com.example.kotlin_tracktic.ui.theme.Red30
 import com.example.kotlin_tracktic.ui.theme.Yellow30
 import com.example.kotlin_tracktic.ui.theme.Purple40
+import com.example.kotlin_tracktic.util.SharedViewModel
 import com.google.firebase.auth.FirebaseAuth
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,17 +53,7 @@ fun LoginScreen(navController: NavController) {
     val onClick = {
         navController.navigate(Screen.RegisterScreen.route)
     }
-
-    val auth = FirebaseAuth.getInstance()
-
-    val loginuser: (String, String) -> Unit = { email, password ->
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    navController.navigate(Screen.StatisticScreen.route)
-                }
-            }
-    }
+    val context = LocalContext.current
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -133,8 +126,7 @@ fun LoginScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(10.dp))
         Button(
             onClick = {
-//                navController.navigate(Screen.StatisticScreen.route)
-                loginuser(text, password)
+                      SharedViewModel().signIn(text, password, context, navController= navController, backToMainScreen = onClick)
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Purple40

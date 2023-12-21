@@ -12,7 +12,9 @@ import com.example.kotlin_tracktic_theincredibles.R
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.auth
+import com.google.firebase.auth.userProfileChangeRequest
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -127,19 +129,37 @@ class SharedViewModel(): ViewModel() {
         navController: NavController,
         backToMainScreen: () -> Unit
     ) = CoroutineScope(Dispatchers.IO).launch{
-//        auth = FirebaseAuth.getInstance()
+        // auth = FirebaseAuth.getInstance()
         auth = Firebase.auth
 
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(context, "Sign up success", Toast.LENGTH_SHORT).show()
-                    navController.navigate(Screen.LoginScreen.route)
+                    // Extract display name from email (without domain part)
+                    val displayName = email.substringBefore('@')
+
+                    // Update display name with the extracted name
+                    val user = auth.currentUser
+                    user?.updateProfile(UserProfileChangeRequest.Builder()
+                        .setDisplayName(displayName) // Setting display name without domain
+                        .build())
+                        ?.addOnCompleteListener { profileUpdateTask ->
+                            if (profileUpdateTask.isSuccessful) {
+                                Toast.makeText(context, "Sign up success", Toast.LENGTH_SHORT).show()
+                                navController.navigate(Screen.LoginScreen.route)
+                            } else {
+                                Toast.makeText(context, "Failed to set display name", Toast.LENGTH_SHORT).show()
+                                // Handle the error when setting the display name fails
+                            }
+                        }
                 } else {
                     Toast.makeText(context, "Sign up failed", Toast.LENGTH_SHORT).show()
+                    // Handle the signup failure
                 }
             }
     }
+
+
 
     fun signIn(
         email: String,
@@ -154,6 +174,7 @@ class SharedViewModel(): ViewModel() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+
                     Toast.makeText(context, "Sign in success", Toast.LENGTH_SHORT).show()
                     navController.navigate(Screen.StatisticScreen.route)
                 } else {
@@ -166,11 +187,11 @@ class SharedViewModel(): ViewModel() {
         context: Context,
         navController: NavController,
         backToMainScreen: () -> Unit
-    ) = CoroutineScope(Dispatchers.IO).launch{
-//        auth = FirebaseAuth.getInstance()
+    ) = CoroutineScope(Dispatchers.IO).launch {
+        // auth = FirebaseAuth.getInstance()
         auth = Firebase.auth
 
-        BeginSignInRequest.builder()
+        val signInResult = BeginSignInRequest.builder()
             .setGoogleIdTokenRequestOptions(
                 BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                     .setSupported(true)
@@ -180,7 +201,49 @@ class SharedViewModel(): ViewModel() {
                     .setFilterByAuthorizedAccounts(true)
                     .build())
             .build()
+
     }
+
+    fun signOut(
+        context: Context,
+        navController: NavController,
+        backToMainScreen: () -> Unit
+    ) = CoroutineScope(Dispatchers.IO).launch{
+//        auth = FirebaseAuth.getInstance()
+        auth = Firebase.auth
+
+        auth.signOut()
+        Toast.makeText(context, "Sign out success", Toast.LENGTH_SHORT).show()
+        navController.navigate(Screen.LoginScreen.route)
+    }
+
+    fun editProfile (
+        name: String,
+        context: Context,
+        navController: NavController,
+        backToMainScreen: () -> Unit
+    ) = CoroutineScope(Dispatchers.IO).launch{
+//        auth = FirebaseAuth.getInstance()
+        auth = Firebase.auth
+
+        val user = auth.currentUser
+
+        if (user != null) {
+            val profileUpdates = userProfileChangeRequest {
+                displayName = name
+//                photoUri = Uri.parse("https://example.com/jane-q-user/profile.jpg")
+            }
+
+            user.updateProfile(profileUpdates)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d("debug", "User profile updated.")
+                        navController.navigate(Screen.ProfileScreen.route)
+                    }
+                }
+        }
+    }
+
 
     fun printTest () {
         // print in logcat

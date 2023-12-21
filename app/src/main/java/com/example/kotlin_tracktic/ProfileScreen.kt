@@ -46,15 +46,23 @@ import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalContext
 import com.example.kotlin_tracktic.ui.theme.Red30
 import com.example.kotlin_tracktic.ui.theme.Yellow30
 import com.example.kotlin_tracktic.ui.theme.Purple40
+import com.example.kotlin_tracktic.util.SharedViewModel
 import com.example.kotlin_tracktic_theincredibles.R
+import com.google.firebase.auth.FirebaseAuth
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(navController: NavController, onBackClick: () -> Unit) {
+
+    val auth = FirebaseAuth.getInstance()
+
+    val context = LocalContext.current
+
 
     Box(
         contentAlignment = Alignment.Center,
@@ -75,6 +83,7 @@ fun ProfileScreen(navController: NavController, onBackClick: () -> Unit) {
                 .align(Alignment.CenterHorizontally)) {
                 Column () {
                     Image(
+//
                         painter = painterResource(id = R.drawable.chaeunwoo),
                         contentDescription = "Profile Picture",
                         modifier = Modifier
@@ -89,7 +98,7 @@ fun ProfileScreen(navController: NavController, onBackClick: () -> Unit) {
                 .align(Alignment.CenterHorizontally)) {
                 Column {
                     Text(
-                        text = "Cha Eun Woo",
+                        text = auth.currentUser?.displayName.toString(),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold,
                     )
@@ -100,7 +109,7 @@ fun ProfileScreen(navController: NavController, onBackClick: () -> Unit) {
                 .align(Alignment.CenterHorizontally)) {
                 Column {
                     Text(
-                        text = "chaeunwoo@gmail.com",
+                        text = auth.currentUser?.email.toString(),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = Color.LightGray,
@@ -121,7 +130,10 @@ fun ProfileScreen(navController: NavController, onBackClick: () -> Unit) {
                     Spacer(modifier = Modifier.height(16.dp))
                     Divider()
                     Spacer(modifier = Modifier.height(16.dp))
-                    ProfileOption(icon = Icons.Filled.ExitToApp, label = "Log Out", onClick = { }, logoColor = Yellow30)
+                    ProfileOption(icon = Icons.Filled.ExitToApp, label = "Log Out", onClick = {
+                        auth.signOut()
+                        navController.navigate(Screen.LoginScreen.route)
+                    }, logoColor = Yellow30)
                 }
             }
             BottomNavigation(

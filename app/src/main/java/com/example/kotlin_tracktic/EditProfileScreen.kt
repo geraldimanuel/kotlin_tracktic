@@ -52,6 +52,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.kotlin_tracktic.util.SharedViewModel
 import com.example.kotlin_tracktic_theincredibles.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -170,51 +171,51 @@ fun EditProfileScreen(navController: NavController, onBackClick: () -> Unit) {
                 )
             }
 
-            Column(modifier = Modifier.padding(top = 10.dp)) {
-                OutlinedTextField(
-                    value = emailValue,
-                    leadingIcon = {Icon(imageVector = Icons.Default.Email, contentDescription = "Icon")},
-                    label = { Text(text = "Email", fontSize = 12.sp, color = Color.LightGray, fontWeight = FontWeight.Bold) },
-
-
-                    onValueChange = { newValue ->
-                        emailValue = newValue.toString()
-                    },
-                    maxLines = 1,
-
-                    colors = TextFieldDefaults.textFieldColors(containerColor = Color.White),
-                    textStyle = TextStyle(color = Color.Black, fontSize = 12.sp),
-                    modifier = Modifier
-                        .background(Color.White),
-
-                    shape = RoundedCornerShape(30),
-                )
-            }
-
-            Column(modifier = Modifier.padding(top = 10.dp)) {
-                OutlinedTextField(
-                    value = mobileValue,
-                    leadingIcon = {Icon(imageVector = Icons.Default.Phone, contentDescription = "Icon")},
-
-                    label = { Text(text = "Mobile Number", fontSize = 12.sp, color = Color.LightGray, fontWeight = FontWeight.Bold
-                    ) },
-
-
-                    onValueChange = { newValue ->
-                        mobileValue = newValue.toString()
-                    },
-                    maxLines = 1,
-
-                    colors = TextFieldDefaults.textFieldColors(containerColor = Color.White),
-                    textStyle = TextStyle(color = Color.Black, fontSize = 12.sp),
-                    modifier = Modifier
-                        .background(Color.White),
-
-                    shape = RoundedCornerShape(30),
-
-
-                    )
-            }
+//            Column(modifier = Modifier.padding(top = 10.dp)) {
+//                OutlinedTextField(
+//                    value = emailValue,
+//                    leadingIcon = {Icon(imageVector = Icons.Default.Email, contentDescription = "Icon")},
+//                    label = { Text(text = "Email", fontSize = 12.sp, color = Color.LightGray, fontWeight = FontWeight.Bold) },
+//
+//
+//                    onValueChange = { newValue ->
+//                        emailValue = newValue.toString()
+//                    },
+//                    maxLines = 1,
+//
+//                    colors = TextFieldDefaults.textFieldColors(containerColor = Color.White),
+//                    textStyle = TextStyle(color = Color.Black, fontSize = 12.sp),
+//                    modifier = Modifier
+//                        .background(Color.White),
+//
+//                    shape = RoundedCornerShape(30),
+//                )
+//            }
+//
+//            Column(modifier = Modifier.padding(top = 10.dp)) {
+//                OutlinedTextField(
+//                    value = mobileValue,
+//                    leadingIcon = {Icon(imageVector = Icons.Default.Phone, contentDescription = "Icon")},
+//
+//                    label = { Text(text = "Mobile Number", fontSize = 12.sp, color = Color.LightGray, fontWeight = FontWeight.Bold
+//                    ) },
+//
+//
+//                    onValueChange = { newValue ->
+//                        mobileValue = newValue.toString()
+//                    },
+//                    maxLines = 1,
+//
+//                    colors = TextFieldDefaults.textFieldColors(containerColor = Color.White),
+//                    textStyle = TextStyle(color = Color.Black, fontSize = 12.sp),
+//                    modifier = Modifier
+//                        .background(Color.White),
+//
+//                    shape = RoundedCornerShape(30),
+//
+//
+//                    )
+//            }
 
             // Button
             Column(modifier = Modifier.padding(top = 100.dp)) {
@@ -222,7 +223,7 @@ fun EditProfileScreen(navController: NavController, onBackClick: () -> Unit) {
 
                 OutlinedButton(
                     onClick = {
-                        Toast.makeText(context, "Updated!", Toast.LENGTH_SHORT).show()
+                        SharedViewModel().editProfile(nameValue, context, navController, onBackClick)
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = com.example.kotlin_tracktic.ui.theme.Red30,
