@@ -31,7 +31,8 @@ class SharedViewModel(): ViewModel() {
     @SuppressLint("SuspiciousIndentation")
     fun saveData(
         transactionData: TransactionData,
-        context: Context
+        context: Context,
+        navController: NavController
     ) = CoroutineScope(Dispatchers.IO).launch{
       val db = Firebase.firestore
 
@@ -53,6 +54,7 @@ class SharedViewModel(): ViewModel() {
                     .add(data)
                     .addOnSuccessListener {
                         Toast.makeText(context, "Data saved", Toast.LENGTH_SHORT).show()
+                        navController.navigate(Screen.StatisticScreen.route)
                     }
                     .addOnFailureListener { e ->
                         Toast.makeText(context, "Failed to save data: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -108,8 +110,7 @@ class SharedViewModel(): ViewModel() {
         }
     }
 
-    fun retrieveExpenseByCategory(
-        category: String,
+    fun retrieveIncome(
         context: Context,
         data: (List<TransactionData>) -> Unit
     ) = CoroutineScope(Dispatchers.IO).launch {
@@ -122,8 +123,7 @@ class SharedViewModel(): ViewModel() {
             try {
                 db.collection("transactions")
                     .whereEqualTo("uid", uid)
-                    .whereEqualTo("type", "Expense")
-                    .whereEqualTo("category", category)
+                    .whereEqualTo("type", "Income")
                     .get()
                     .addOnSuccessListener { documents ->
                         val expenseList = mutableListOf<TransactionData>()
@@ -152,48 +152,55 @@ class SharedViewModel(): ViewModel() {
         }
     }
 
+
+
     fun retrieveData(
-        category: String,
-        type: String,
         context: Context,
-        data: (TransactionData) -> Unit
-    ) = CoroutineScope(Dispatchers.IO).launch{
+        data: (List<Pair<String, TransactionData>>) -> Unit // Using Pair to hold ID and TransactionData
+    ) = CoroutineScope(Dispatchers.IO).launch {
 
         val db = Firebase.firestore
-
-
         val user = Firebase.auth.currentUser
         val uid = user?.uid
 
-        if (user!= null) {
+        if (user != null) {
             try {
                 db.collection("transactions")
                     .whereEqualTo("uid", uid)
-                    .whereEqualTo("category", category)
-                    .whereEqualTo("type", type)
                     .get()
                     .addOnSuccessListener { documents ->
+                        val transactionList = mutableListOf<Pair<String, TransactionData>>() // Pair to hold ID and TransactionData
+
                         for (document in documents) {
-                            Log.d("debug data","${document.id} => ${document.data}")
+                            val transaction = document.toObject(TransactionData::class.java)
+                            val transactionId = document.id // Get the document ID
+
+                            // Add ID and TransactionData to the list as a Pair
+                            transactionList.add(Pair(transactionId, transaction))
                         }
+
+                        // Pass the populated list with IDs back via the callback
+                        data(transactionList)
                     }
                     .addOnFailureListener { exception ->
                         Log.w("Error getting documents: ", exception)
+                        // Handle failure, maybe notify the user or log the error
                     }
             } catch (e: Exception) {
                 Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                // Handle exception, maybe notify the user or log the error
             }
-        }  else {
+        } else {
             // Handle scenario where user is not authenticated
             Toast.makeText(context, "User not authenticated", Toast.LENGTH_SHORT).show()
         }
     }
 
+
+
     fun deleteData(
         id: String,
         context: Context,
-        navController: NavController,
-        backToMainScreen: () -> Unit
     ) = CoroutineScope(Dispatchers.IO).launch{
 
         val db = Firebase.firestore
@@ -203,8 +210,7 @@ class SharedViewModel(): ViewModel() {
                 .document(id)
                 .delete()
                 .addOnSuccessListener {
-                    Toast.makeText(context, "Data saved", Toast.LENGTH_SHORT).show()
-                    navController.popBackStack()
+                    Toast.makeText(context, "Data Deleted", Toast.LENGTH_SHORT).show()
                 }
         } catch (e: Exception) {
             Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
@@ -267,7 +273,7 @@ class SharedViewModel(): ViewModel() {
                             val token = result.token
                             saveAuthToken(context, token)
                             Toast.makeText(context, "Sign in success", Toast.LENGTH_SHORT).show()
-                            navController.navigate(Screen.MainScreen.route)                        }
+                            navController.navigate(Screen.StatisticScreen.route)                        }
                         ?.addOnFailureListener {
                             Toast.makeText(context, "Failed to get user token", Toast.LENGTH_SHORT).show()
                         }

@@ -63,27 +63,27 @@ fun BottomNavigation (navController: NavController) {
                 unselectedIcon = Icons.Outlined.Home,
                 route = Screen.MainScreen.route + "/{name}",
 
-            ),
+                ),
             BottomNavigationItem(
                 title = "Statistic",
                 selectedIcon = Icons.Filled.Share,
                 unselectedIcon = Icons.Outlined.Share,
                 route = Screen.StatisticScreen.route,
             ),
-            BottomNavigationItem(
-                title = "Add",
-                selectedIcon = Icons.Filled.Add,
-                unselectedIcon = Icons.Outlined.Add,
-                route = Screen.TransactionScreen.route,
-
-            ),
-            BottomNavigationItem(
-                title = "Notif",
-                selectedIcon = Icons.Filled.Notifications,
-                unselectedIcon = Icons.Outlined.Notifications,
-                route = Screen.NotificationScreen.route,
-                badgeCount = 45
-            ),
+//            BottomNavigationItem(
+//                title = "Add",
+//                selectedIcon = Icons.Filled.Add,
+//                unselectedIcon = Icons.Outlined.Add,
+//                route = Screen.TransactionScreen.route,
+//
+//            ),
+//            BottomNavigationItem(
+//                title = "Notif",
+//                selectedIcon = Icons.Filled.Notifications,
+//                unselectedIcon = Icons.Outlined.Notifications,
+//                route = Screen.NotificationScreen.route,
+//                badgeCount = 45
+//            ),
             BottomNavigationItem(
                 title = "Profile",
                 selectedIcon = Icons.Filled.Person,
@@ -100,85 +100,85 @@ fun BottomNavigation (navController: NavController) {
         var selectedItemIndex by rememberSaveable {
             mutableStateOf(0)
         }
-        Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .shadow(20.dp)
-        ) {
-            Scaffold(
-                bottomBar = {
-                    NavigationBar(
-                        modifier = Modifier.padding(10.dp)
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp, bottomStart = 20.dp, bottomEnd = 20.dp))
-                            .background(color = Pink40),
+//        Surface(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .shadow(20.dp)
+//        ) {
+        Scaffold(
+            bottomBar = {
+                NavigationBar(
+                    modifier = Modifier.padding(10.dp)
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp, bottomStart = 20.dp, bottomEnd = 20.dp))
+                        .background(color = Pink40),
 
 
-                        containerColor = Color(0xFFE0A9A5),
+                    containerColor = Color(0xFFE0A9A5),
 
 
                     ) {
-                        items.forEachIndexed { index, item ->
-                            NavigationBarItem(
-                                selected = currentRoute == item.route,
-                                onClick = {
-                                    navController.navigate(item.route)
-                                },
-                                label = {
-                                    Text(text = item.title, color = Color.White)
+                    items.forEachIndexed { index, item ->
+                        NavigationBarItem(
+                            selected = currentRoute == item.route,
+                            onClick = {
+                                navController.navigate(item.route)
+                            },
+                            label = {
+                                Text(text = item.title, color = Color.White)
 
-                                },
-                                alwaysShowLabel = false,
+                            },
+                            alwaysShowLabel = false,
 
-                                icon = {
-                                    BadgedBox(
-                                        badge = {
-                                            if (item.badgeCount != null) {
-                                                Badge {
-                                                    Text(text = item.badgeCount.toString())
-                                                }
-                                            }
-                                        }
-
-                                    ) {
-                                        Icon(
-                                            imageVector = if (currentRoute == item.route) {
-                                                item.selectedIcon
-                                            } else item.unselectedIcon,
-                                            contentDescription = item.title,
-                                            modifier = Modifier.size(24.dp),
-                                            tint = if (currentRoute == item.route) {
-                                                Color(0xFFE0A9A5)
-                                            } else {
-                                                colorResource(id = R.color.white)
-                                            }
-                                        )
-                                        if (index == 2) {
-                                            Box(
-                                                modifier = Modifier
-                                                    .size(56.dp)
-                                                    .background(
-                                                        color = White,
-                                                        shape = MaterialTheme.shapes.small,
-                                                    ),
-                                                contentAlignment = Alignment.Center
-                                            ) {
-                                                Icon(
-                                                    imageVector = item.selectedIcon,
-                                                    contentDescription = item.title,
-                                                    modifier = Modifier.size(24.dp),
-                                                    tint = Color(0xFFE0A9A5),
-                                                )
+                            icon = {
+                                BadgedBox(
+                                    badge = {
+                                        if (item.badgeCount != null) {
+                                            Badge {
+                                                Text(text = item.badgeCount.toString())
                                             }
                                         }
                                     }
+
+                                ) {
+                                    Icon(
+                                        imageVector = if (currentRoute == item.route) {
+                                            item.selectedIcon
+                                        } else item.unselectedIcon,
+                                        contentDescription = item.title,
+                                        modifier = Modifier.size(24.dp),
+                                        tint = if (currentRoute == item.route) {
+                                            Color(0xFFE0A9A5)
+                                        } else {
+                                            colorResource(id = R.color.white)
+                                        }
+                                    )
+//                                        if (index == 2) {
+//                                            Box(
+//                                                modifier = Modifier
+//                                                    .size(56.dp)
+//                                                    .background(
+//                                                        color = White,
+//                                                        shape = MaterialTheme.shapes.small,
+//                                                    ),
+//                                                contentAlignment = Alignment.Center
+//                                            ) {
+//                                                Icon(
+//                                                    imageVector = item.selectedIcon,
+//                                                    contentDescription = item.title,
+//                                                    modifier = Modifier.size(24.dp),
+//                                                    tint = Color(0xFFE0A9A5),
+//                                                )
+//                                            }
+//                                        }
                                 }
-                            )
-                        }
+                            }
+                        )
                     }
                 }
-            ) {
             }
+        ) {
         }
     }
+//    }
 }

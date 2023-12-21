@@ -45,19 +45,49 @@ fun StatisticScreen(navController: NavController) {
 
     val context = LocalContext.current
     val sharedViewModel = remember { SharedViewModel() }
+
     val totalExpenseState = remember { mutableStateOf("Rp 0") }
+    val totalIncomeState = remember { mutableStateOf("Rp 0") }
+    val totalState = remember { mutableStateOf("Rp 0") }
+
     val totalFoodExpense = remember { mutableStateOf("Rp 0") }
     val totalTransportationExpense = remember { mutableStateOf("Rp 0") }
     val totalShopExpense = remember { mutableStateOf("Rp 0") }
     val totalOthersExpense = remember { mutableStateOf("Rp 0") }
 
     LaunchedEffect(true) {
+        var totalIncome = 0.0
+        var totalExpense = 0.0
+
+        // Function to calculate total and update the state
+        fun updateTotal() {
+            // Calculate total only when both income and expense are fetched
+            if (totalIncome != 0.0 && totalExpense != 0.0) {
+                val total = totalIncome - totalExpense
+                totalState.value = "Rp ${String.format("%.2f", total)}"
+            }
+        }
+
+        // Retrieve total income
+        sharedViewModel.retrieveIncome(context) { incomeList ->
+            for (income in incomeList) {
+                totalIncome += income.nominal
+            }
+            totalIncomeState.value = "Rp ${String.format("%.2f", totalIncome)}"
+
+            // Calculate total only after retrieving income
+            updateTotal()
+        }
+
+        // Retrieve total expense
         sharedViewModel.retrieveExpense(context) { expenseList ->
-            var totalExpense = 0.0
             for (expense in expenseList) {
                 totalExpense += expense.nominal
             }
             totalExpenseState.value = "Rp ${String.format("%.2f", totalExpense)}"
+
+            // Calculate total only after retrieving expense
+            updateTotal()
         }
 
         sharedViewModel.retrieveExpense(context) { expenseList ->
@@ -120,7 +150,11 @@ fun StatisticScreen(navController: NavController) {
                 Header()
                 Spacer(modifier = Modifier.height(16.dp))
 
+                ExpenseCard(modifier = Modifier.fillMaxWidth(),"Total Income", totalIncomeState.value)
+                Spacer(modifier = Modifier.height(16.dp))
                 ExpenseCard(modifier = Modifier.fillMaxWidth(),"Total Expense", totalExpenseState.value)
+                Spacer(modifier = Modifier.height(16.dp))
+                ExpenseCard(modifier = Modifier.fillMaxWidth(),"Total", totalState.value)
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Row (
@@ -190,6 +224,8 @@ fun StatisticScreen(navController: NavController) {
         }
     }
 }
+
+
 
 @Composable
 fun Header() {

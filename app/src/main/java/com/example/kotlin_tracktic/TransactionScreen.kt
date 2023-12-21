@@ -412,7 +412,7 @@ fun TransactionScreen(
                                 description = remarksValue,
                                 type = typeValue
                             )
-                            sharedViewModel.saveData(transactionData, context)
+                            sharedViewModel.saveData(transactionData, context, navController)
                         },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = com.example.kotlin_tracktic.ui.theme.Red30,

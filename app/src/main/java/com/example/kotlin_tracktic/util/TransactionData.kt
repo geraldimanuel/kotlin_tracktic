@@ -7,7 +7,8 @@ data class TransactionData(
     val category: String = "",
     val date: Date = Date(),
     val description: String = "",
-    val type: String = ""
+    val type: String = "",
+    val id: String = ""
 ) {
-    constructor() : this(0, "", Date(), "", "")
+    constructor() : this(0, "", Date(), "", "", "")
 }
