@@ -63,6 +63,92 @@ class SharedViewModel(): ViewModel() {
         }
     }
 
+    fun retrieveExpense(
+        context: Context,
+        data: (List<TransactionData>) -> Unit
+    ) = CoroutineScope(Dispatchers.IO).launch {
+
+        val db = Firebase.firestore
+        val user = Firebase.auth.currentUser
+        val uid = user?.uid
+
+        if (user != null) {
+            try {
+                db.collection("transactions")
+                    .whereEqualTo("uid", uid)
+                    .whereEqualTo("type", "Expense")
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        val expenseList = mutableListOf<TransactionData>()
+                        var totalExpense = 0.0 // Assuming nominal is a Double
+
+                        for (document in documents) {
+                            val expenseData = document.toObject(TransactionData::class.java)
+                            expenseList.add(expenseData)
+                            totalExpense += expenseData.nominal
+                        }
+
+                        // Return the list of expenses and total expense through the callback
+                        data(expenseList)
+                        // Handle total expense here or send it back as needed
+                        Log.d("Total Expense", "Total: $totalExpense")
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.w("Error getting documents: ", exception)
+                    }
+            } catch (e: Exception) {
+                Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            // Handle scenario where user is not authenticated
+            Toast.makeText(context, "User not authenticated", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun retrieveExpenseByCategory(
+        category: String,
+        context: Context,
+        data: (List<TransactionData>) -> Unit
+    ) = CoroutineScope(Dispatchers.IO).launch {
+
+        val db = Firebase.firestore
+        val user = Firebase.auth.currentUser
+        val uid = user?.uid
+
+        if (user != null) {
+            try {
+                db.collection("transactions")
+                    .whereEqualTo("uid", uid)
+                    .whereEqualTo("type", "Expense")
+                    .whereEqualTo("category", category)
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        val expenseList = mutableListOf<TransactionData>()
+                        var totalExpense = 0.0 // Assuming nominal is a Double
+
+                        for (document in documents) {
+                            val expenseData = document.toObject(TransactionData::class.java)
+                            expenseList.add(expenseData)
+                            totalExpense += expenseData.nominal
+                        }
+
+                        // Return the list of expenses and total expense through the callback
+                        data(expenseList)
+                        // Handle total expense here or send it back as needed
+                        Log.d("Total Expense", "Total: $totalExpense")
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.w("Error getting documents: ", exception)
+                    }
+            } catch (e: Exception) {
+                Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            // Handle scenario where user is not authenticated
+            Toast.makeText(context, "User not authenticated", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     fun retrieveData(
         category: String,
         type: String,

@@ -3,10 +3,11 @@ package com.example.kotlin_tracktic.util
 import java.util.Date
 
 data class TransactionData(
-    val nominal: Int,
-    val category: String,
-    val date: Date,
-    val description: String,
-    val type: String,
-//    val uid: String
-)
+    val nominal: Int = 0,
+    val category: String = "",
+    val date: Date = Date(),
+    val description: String = "",
+    val type: String = ""
+) {
+    constructor() : this(0, "", Date(), "", "")
+}

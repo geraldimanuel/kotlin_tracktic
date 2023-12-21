@@ -1,5 +1,6 @@
 package com.example.kotlin_tracktic
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,8 +18,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,10 +37,72 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.kotlin_tracktic.ui.theme.Kotlin_trackticTheme
 import com.example.kotlin_tracktic.ui.theme.Purple40
+import com.example.kotlin_tracktic.util.SharedViewModel
 import com.example.kotlin_tracktic_theincredibles.R
 
 @Composable
 fun StatisticScreen(navController: NavController) {
+
+    val context = LocalContext.current
+    val sharedViewModel = remember { SharedViewModel() }
+    val totalExpenseState = remember { mutableStateOf("Rp 0") }
+    val totalFoodExpense = remember { mutableStateOf("Rp 0") }
+    val totalTransportationExpense = remember { mutableStateOf("Rp 0") }
+    val totalShopExpense = remember { mutableStateOf("Rp 0") }
+    val totalOthersExpense = remember { mutableStateOf("Rp 0") }
+
+    LaunchedEffect(true) {
+        sharedViewModel.retrieveExpense(context) { expenseList ->
+            var totalExpense = 0.0
+            for (expense in expenseList) {
+                totalExpense += expense.nominal
+            }
+            totalExpenseState.value = "Rp ${String.format("%.2f", totalExpense)}"
+        }
+
+        sharedViewModel.retrieveExpense(context) { expenseList ->
+            var totalFood = 0.0
+            for (expense in expenseList) {
+                if (expense.category == "Food") {
+                    totalFood += expense.nominal
+                }
+            }
+            totalFoodExpense.value = "Rp ${String.format("%.2f", totalFood)}"
+        }
+
+        sharedViewModel.retrieveExpense(context) { expenseList ->
+            var totalTransportation = 0.0
+            for (expense in expenseList) {
+                if (expense.category == "Transportation") {
+                    totalTransportation += expense.nominal
+                }
+            }
+            totalTransportationExpense.value = "Rp ${String.format("%.2f", totalTransportation)}"
+        }
+
+        sharedViewModel.retrieveExpense(context) { expenseList ->
+            var totalShop = 0.0
+            for (expense in expenseList) {
+                if (expense.category == "Shop") {
+                    totalShop += expense.nominal
+                }
+            }
+            totalShopExpense.value = "Rp ${String.format("%.2f", totalShop)}"
+        }
+
+        sharedViewModel.retrieveExpense(context) { expenseList ->
+            var totalOthers = 0.0
+            for (expense in expenseList) {
+                if (expense.category == "Others") {
+                    totalOthers += expense.nominal
+                }
+            }
+            totalOthersExpense.value = "Rp ${String.format("%.2f", totalOthers)}"
+        }
+    }
+
+
+
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -53,7 +120,7 @@ fun StatisticScreen(navController: NavController) {
                 Header()
                 Spacer(modifier = Modifier.height(16.dp))
 
-                ExpenseCard(modifier = Modifier.fillMaxWidth(),"Total Expense", "Rp 3,000")
+                ExpenseCard(modifier = Modifier.fillMaxWidth(),"Total Expense", totalExpenseState.value)
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Row (
@@ -65,41 +132,58 @@ fun StatisticScreen(navController: NavController) {
                         Text(text = "Expense Breakdown",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,)
-                        Text("Limit Rp 300,000 / week")
+//                        Text("Limit Rp 300,000 / week")
                     }
-                    Text("Dropdown")
+//                    Text("Dropdown")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Column {
+                Column( modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
                     Row (
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        ExpenseCard(modifier = Modifier,"Food", "Rp 1,700,000")
-                        ExpenseCard(modifier = Modifier,"Household", "Rp 300,000")
+                        ExpenseCard(
+                            modifier = Modifier.weight(1f),
+                            title = "Food",
+                            amount = totalFoodExpense.value
+                        )
+                        ExpenseCard(
+                            modifier = Modifier.weight(1f),
+                            title = "Transportation",
+                            amount = totalTransportationExpense.value
+                        )
                     }
-                    Spacer(modifier = Modifier.height(16.dp))
+//                    Spacer(modifier = Modifier.height(8.dp))
 
                     Row (
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        ExpenseCard(modifier = Modifier,"Savings", "Rp 5,000,000")
-                        ExpenseCard(modifier = Modifier,"Others", "Rp 10,000")
+                        ExpenseCard(
+                            modifier = Modifier.weight(1f),
+                            title = "Shop",
+                            amount = totalShopExpense.value
+                        )
+                        ExpenseCard(
+                            modifier = Modifier.weight(1f),
+                            title = "Others",
+                            amount = totalOthersExpense.value
+                        )
                     }
                 }
+
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Text(text = "Payment Links",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold,)
-                Text(text = "Your current linked accounts")
-                Spacer(modifier = Modifier.height(16.dp))
-
-                PaymentCard(painterResource(id = R.drawable.gopay), contentDescription = "gopay")
+//                Text(text = "Payment Links",
+//                    fontSize = 20.sp,
+//                    fontWeight = FontWeight.SemiBold,)
+//                Text(text = "Your current linked accounts")
+//                Spacer(modifier = Modifier.height(16.dp))
+//
+//                PaymentCard(painterResource(id = R.drawable.gopay), contentDescription = "gopay")
             }
 
             BottomNavigation(navController = navController)
@@ -117,7 +201,7 @@ fun Header() {
         Text(text = "Statistic",
             fontSize = 30.sp,
             fontWeight = FontWeight.SemiBold,)
-        Text(text = "Dropdown")
+//        Text(text = "Dropdown")
     }
 }
 
@@ -128,40 +212,35 @@ fun ExpenseCard(
     amount: String
 ) {
     Card(
-        modifier = Modifier
-            .height(100.dp),
+        modifier = modifier,
         shape = RoundedCornerShape(15.dp),
         colors = CardDefaults.cardColors(Purple40)
     ) {
-        Box(modifier = Modifier
-            .height(150.dp)
-            .padding(16.dp)
+        Column (
+            modifier = Modifier
+                .fillMaxWidth() // Menyesuaikan lebar dengan container
+                .padding(16.dp),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Column (
-                modifier = modifier
-                    .fillMaxHeight(),
-                verticalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = title,
-                    color = Color.White
-                )
-                Text(
-                    text = amount,
-                    color = Color.White
-                )
-                Column(
-                    modifier = modifier
-                        .defaultMinSize(minWidth = 130.dp)
-                        .height(6.dp)
-                        .background(Color.White),
-                ) {
-                    Text(text = "")
-                }
-            }
+            Text(
+                text = title,
+                color = Color.White,
+                fontWeight = FontWeight.SemiBold,
+            )
+            Text(
+                text = amount,
+                color = Color.White
+            )
+//            LinearProgressIndicator(
+//                progress = 0.5f, // Setel nilai progres yang diperlukan (0.0f hingga 1.0f)
+//                modifier = Modifier
+//                    .height(6.dp)
+//                    .fillMaxWidth() // Menyesuaikan lebar dengan container
+//            )
         }
     }
 }
+
 
 @Composable
 fun PaymentCard(
