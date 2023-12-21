@@ -29,11 +29,13 @@ import androidx.navigation.NavController
 import com.example.kotlin_tracktic.ui.theme.Purple40
 import com.example.kotlin_tracktic.util.SharedViewModel
 import com.example.kotlin_tracktic_theincredibles.R
+import com.google.firebase.auth.FirebaseAuth
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 //@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(name: String?, navController: NavController, sharedViewModel: SharedViewModel) {
+fun MainScreen(navController: NavController, sharedViewModel: SharedViewModel) {
+    val auth = FirebaseAuth.getInstance()
 
     Box(
         contentAlignment = Alignment.Center,
@@ -65,7 +67,7 @@ fun MainScreen(name: String?, navController: NavController, sharedViewModel: Sha
                 Profile(
                     painter = painterResource(id = R.drawable.cinammoroll),
                     contentDescription = "Happy Meal",
-                    name = name ?: "Bella"
+                    name = auth.currentUser?.displayName.toString()
                 )
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -289,8 +291,8 @@ fun ExpenseCard(
     }
 }
 
-@Preview
-@Composable
-fun DefaultPreview() {
-    MainScreen(name = "Bella", navController = NavController(LocalContext.current), sharedViewModel = SharedViewModel())
-}
+//@Preview
+//@Composable
+//fun DefaultPreview() {
+//    MainScreen(name = "Bella", navController = NavController(LocalContext.current), sharedViewModel = SharedViewModel())
+//}

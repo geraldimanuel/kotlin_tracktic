@@ -35,7 +35,6 @@ fun Navigation(
             )
         ){ entry ->
             MainScreen(
-                name = entry.arguments?.getString("name"),
                 navController = navController,
                  sharedViewModel = sharedViewModel
             )

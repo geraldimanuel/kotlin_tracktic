@@ -76,6 +76,8 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     implementation ("androidx.navigation:navigation-compose:2.4.0-alpha06")
+    implementation("io.coil-kt:coil-compose:1.4.0")
+
 
     implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
     // Also add the dependency for the Google Play services library and specify its version

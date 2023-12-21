@@ -47,6 +47,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
+import coil.compose.rememberImagePainter
 import com.example.kotlin_tracktic.ui.theme.Red30
 import com.example.kotlin_tracktic.ui.theme.Yellow30
 import com.example.kotlin_tracktic.ui.theme.Purple40
@@ -62,6 +63,15 @@ fun ProfileScreen(navController: NavController, onBackClick: () -> Unit) {
     val auth = FirebaseAuth.getInstance()
 
     val context = LocalContext.current
+
+    val painter = rememberImagePainter(
+        data = auth.currentUser?.photoUrl,
+        builder = {
+            // You can add additional options here if needed
+            crossfade(true)
+        }
+    )
+
 
 
     Box(
@@ -83,14 +93,13 @@ fun ProfileScreen(navController: NavController, onBackClick: () -> Unit) {
                 .align(Alignment.CenterHorizontally)) {
                 Column () {
                     Image(
-//
-                        painter = painterResource(id = R.drawable.chaeunwoo),
+                        painter = painter,
                         contentDescription = "Profile Picture",
                         modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
                             .size(120.dp)
                             .clip(RoundedCornerShape(50))
-                            .background(Color.LightGray)
+                            .background(Color.LightGray),
+                        contentScale = ContentScale.Crop // Adjust as needed
                     )
                 }
             }

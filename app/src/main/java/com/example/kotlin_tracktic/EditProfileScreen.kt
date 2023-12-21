@@ -43,6 +43,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -52,8 +53,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.rememberImagePainter
 import com.example.kotlin_tracktic.util.SharedViewModel
 import com.example.kotlin_tracktic_theincredibles.R
+import com.google.firebase.auth.FirebaseAuth
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -62,6 +65,16 @@ fun EditProfileScreen(navController: NavController, onBackClick: () -> Unit) {
     var nameValue by remember { mutableStateOf("") }
     var emailValue by remember { mutableStateOf("") }
     var mobileValue by remember { mutableStateOf("") }
+
+    val auth = FirebaseAuth.getInstance()
+
+    val painter = rememberImagePainter(
+        data = auth.currentUser?.photoUrl,
+        builder = {
+            // You can add additional options here if needed
+            crossfade(true)
+        }
+    )
 
     Box(
         contentAlignment = Alignment.Center,
@@ -108,14 +121,13 @@ fun EditProfileScreen(navController: NavController, onBackClick: () -> Unit) {
 
             Column(modifier = Modifier.padding(top = 5.dp)) {
                 Image(
-                    painter = painterResource(id = R.drawable.chaeunwoo),
-
+                    painter = painter,
                     contentDescription = "Profile Picture",
                     modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
                         .size(100.dp)
                         .clip(RoundedCornerShape(50))
-                        .background(Color.LightGray)
+                        .background(Color.LightGray),
+                    contentScale = ContentScale.Crop // Adjust as needed
                 )
                 Row {
                     Text(
@@ -130,7 +142,7 @@ fun EditProfileScreen(navController: NavController, onBackClick: () -> Unit) {
                         contentDescription = "Icon",
                         modifier = Modifier
                             .size(10.dp),
-                        tint = LocalContentColor.current
+                        tint = LocalContentColor.current,
                     )
                 }
 
@@ -223,7 +235,7 @@ fun EditProfileScreen(navController: NavController, onBackClick: () -> Unit) {
 
                 OutlinedButton(
                     onClick = {
-                        SharedViewModel().editProfile(nameValue, context, navController, onBackClick)
+                        SharedViewModel().editProfile(nameValue,context, navController, onBackClick)
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = com.example.kotlin_tracktic.ui.theme.Red30,

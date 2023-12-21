@@ -2,9 +2,12 @@ package com.example.kotlin_tracktic.util
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import android.widget.Toast
+import androidx.core.content.edit
 import androidx.core.content.res.TypedArrayUtils.getString
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.example.kotlin_tracktic.Screen
@@ -228,6 +231,7 @@ class SharedViewModel(): ViewModel() {
                     val user = auth.currentUser
                     user?.updateProfile(UserProfileChangeRequest.Builder()
                         .setDisplayName(displayName) // Setting display name without domain
+                        .setPhotoUri("https://www.w3schools.com/howto/img_avatar.png".toUri())
                         .build())
                         ?.addOnCompleteListener { profileUpdateTask ->
                             if (profileUpdateTask.isSuccessful) {
@@ -253,20 +257,38 @@ class SharedViewModel(): ViewModel() {
         context: Context,
         navController: NavController,
         backToMainScreen: () -> Unit
-    ) = CoroutineScope(Dispatchers.IO).launch{
-//        auth = FirebaseAuth.getInstance()
-        auth = Firebase.auth
+    ) = CoroutineScope(Dispatchers.IO).launch {
+        val auth = FirebaseAuth.getInstance()
 
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-
-                    Toast.makeText(context, "Sign in success", Toast.LENGTH_SHORT).show()
-                    navController.navigate(Screen.StatisticScreen.route)
+                    val user = auth.currentUser
+                    user?.getIdToken(/* forceRefresh = */ true)
+                        ?.addOnSuccessListener { result ->
+                            val token = result.token
+                            saveAuthToken(context, token)
+                            Toast.makeText(context, "Sign in success", Toast.LENGTH_SHORT).show()
+                            navController.navigate(Screen.StatisticScreen.route)
+                        }
+                        ?.addOnFailureListener {
+                            Toast.makeText(context, "Failed to get user token", Toast.LENGTH_SHORT).show()
+                        }
                 } else {
                     Toast.makeText(context, "Sign in failed", Toast.LENGTH_SHORT).show()
                 }
             }
+    }
+
+    private val AUTH_PREFS_NAME = "AuthPrefs"
+    private val KEY_AUTH_TOKEN = "authToken"
+
+    private fun saveAuthToken(context: Context, token: String?) {
+        val sharedPreferences: SharedPreferences = context.getSharedPreferences(AUTH_PREFS_NAME, Context.MODE_PRIVATE)
+        sharedPreferences.edit {
+            putString(KEY_AUTH_TOKEN, token)
+            apply()
+        }
     }
 
     fun signInWithGoogle(
@@ -317,7 +339,6 @@ class SharedViewModel(): ViewModel() {
         if (user != null) {
             val profileUpdates = userProfileChangeRequest {
                 displayName = name
-//                photoUri = Uri.parse("https://example.com/jane-q-user/profile.jpg")
             }
 
             user.updateProfile(profileUpdates)
