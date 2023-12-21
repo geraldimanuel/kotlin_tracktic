@@ -9,6 +9,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -26,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import com.example.kotlin_tracktic.ui.theme.Purple40
 import com.example.kotlin_tracktic.util.SharedViewModel
@@ -46,62 +49,134 @@ fun MainScreen(name: String?, navController: NavController, sharedViewModel: Sha
         Transactions("Electronic", "Monday, 08", "Transportation", 2500, "Expense"),
     )
 
-    LazyColumn (
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(20.dp)
-    ) {
-        item {
-            Row (
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                Text(modifier = Modifier.padding(top = 12.dp), text = "Tracktic", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
-                androidx.compose.material3.Icon(
-                    modifier = Modifier
-                        .height(50.dp),
-                    painter = painterResource(id = R.drawable.baseline_search_24),
-                    contentDescription = "Search"
+    Box(modifier = Modifier.fillMaxSize()) {
+        val backgroundColor = Color(0xFFFF3881)
+        val contentColor = Color.White
+        androidx.compose.material3.FloatingActionButton(
+            modifier = Modifier
+                .padding(
+                    start = 16.dp,
+                    top = 16.dp,
+                    end = 16.dp,
+                    bottom = 100.dp
                 )
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-        item {
-            Profile(
-                painter = painterResource(id = R.drawable.cinammoroll),
-                contentDescription = "Happy Meal",
-                name = name ?: "Bella"
+                .align(alignment = Alignment.BottomEnd)
+                .zIndex(10f),
+            onClick = {
+                navController.navigate(Screen.TransactionScreen.route)
+            },
+            containerColor = backgroundColor,
+            contentColor = contentColor
+        ) {
+            androidx.compose.material3.Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = "add icon"
             )
-            Spacer(modifier = Modifier.height(16.dp))
         }
-        item {
-            MoneyCard(modifier = Modifier)
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-        item {
-            Text(
-                text = "Expense List",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-        items(data.size) {
-            data.forEach {
-                ExpenseCard(modifier = Modifier, it.date, it.nominal.toString(), it.desc, it.type, it.type)
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    start = 20.dp,
+                    top = 20.dp,
+                    end = 20.dp,
+                    bottom = 100.dp
+                )
+                .zIndex(1f)
+        ) {
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    Text(
+                        modifier = Modifier.padding(top = 12.dp),
+                        text = "Tracktic",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    androidx.compose.material3.Icon(
+                        modifier = Modifier
+                            .height(50.dp),
+                        painter = painterResource(id = R.drawable.baseline_search_24),
+                        contentDescription = "Search"
+                    )
+                }
                 Spacer(modifier = Modifier.height(16.dp))
             }
+            item {
+                Profile(
+                    painter = painterResource(id = R.drawable.cinammoroll),
+                    contentDescription = "Happy Meal",
+                    name = name ?: "Bella"
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+            item {
+                MoneyCard(modifier = Modifier)
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+            item {
+                Text(
+                    text = "Expense List",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+            items(data.size) {
+                data.forEach {
+                    ExpenseCard(
+                        modifier = Modifier,
+                        it.date,
+                        it.nominal.toString(),
+                        it.desc,
+                        it.type,
+                        it.type
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+
+            }
 
         }
-        item {
-            BottomNavigation(navController = navController)
-        }
+        Column(
+            modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter),
+        ) {
+//            val backgroundColor = Color(0xFFFF3881)
+//            val contentColor = Color.White
 
+            Box(modifier = Modifier.fillMaxSize()) {
+        BottomNavigation(navController = navController)
+//        androidx.compose.material3.FloatingActionButton(
+//            modifier = Modifier
+//                .padding(
+//                    start = 16.dp,
+//                    top = 16.dp,
+//                    end = 16.dp,
+//                    bottom = 100.dp
+//                )
+//                .align(alignment = Alignment.BottomEnd)
+//                .zIndex(10f),
+//            onClick = {
+//                navController.navigate(Screen.TransactionScreen.route)
+//            },
+//            containerColor = backgroundColor,
+//            contentColor = contentColor
+//        ) {
+//            androidx.compose.material3.Icon(
+//                imageVector = Icons.Default.Add,
+//                contentDescription = "add icon"
+//            )
+//        }
+    }
+        }
     }
 
+////    BottomNavigation(navController = navController)
 //    Box(
 //        contentAlignment = Alignment.Center,
 //        modifier = Modifier.fillMaxSize()
