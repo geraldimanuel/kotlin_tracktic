@@ -4,24 +4,18 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import androidx.core.content.res.TypedArrayUtils.getString
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.example.kotlin_tracktic.Screen
 import com.example.kotlin_tracktic_theincredibles.R
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SharedViewModel(): ViewModel() {
-
-    private lateinit var auth: FirebaseAuth
-
 
     @SuppressLint("SuspiciousIndentation")
     fun saveData(
@@ -32,6 +26,14 @@ class SharedViewModel(): ViewModel() {
 
         val user = Firebase.auth.currentUser
         val uid = user?.uid
+        val data = hashMapOf(
+            "nominal" to transactionData.nominal,
+            "category" to transactionData.category,
+            "date" to transactionData.date,
+            "description" to transactionData.description,
+            "type" to transactionData.type
+
+        )
 
         if (uid != null) {
             val data = hashMapOf(
@@ -62,28 +64,27 @@ class SharedViewModel(): ViewModel() {
     }
 
     fun retrieveData(
-        user: String,
+        id: String,
         context: Context,
-//        data: (TransactionData) -> Unit
+        data: (TransactionData) -> Unit
     ) = CoroutineScope(Dispatchers.IO).launch{
+        val firestoreRef = Firebase.firestore
+            .collection("transactions")
+            .document(id)
 
-        val db = Firebase.firestore
         try {
-            db.collection("transactions")
-//                .whereEqualTo("category", user)
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        Log.d("debug data","${document.id} => ${document.data}")
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    Log.w("Error getting documents: ", exception)
+            firestoreRef.get()
+                .addOnSuccessListener {
+                   if (it.exists()) {
+                       val transactionData = it.toObject(TransactionData::class.java)
+                       data(transactionData!!)
+                   } else {
+                       Toast.makeText(context, "Data not found", Toast.LENGTH_SHORT).show()
+                   }
                 }
         } catch (e: Exception) {
             Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
         }
-
     }
 
     fun deleteData(
@@ -92,13 +93,12 @@ class SharedViewModel(): ViewModel() {
         navController: NavController,
         backToMainScreen: () -> Unit
     ) = CoroutineScope(Dispatchers.IO).launch{
-
-        val db = Firebase.firestore
+        val firestoreRef = Firebase.firestore
+            .collection("transactions")
+            .document(id)
 
         try {
-            db.collection("transactions")
-                .document(id)
-                .delete()
+            firestoreRef.delete()
                 .addOnSuccessListener {
                     Toast.makeText(context, "Data saved", Toast.LENGTH_SHORT).show()
                     navController.popBackStack()
@@ -168,6 +168,7 @@ class SharedViewModel(): ViewModel() {
                     .setFilterByAuthorizedAccounts(true)
                     .build())
             .build()
+    fun printData(){
+        Log.d("TransactionScreen", "Submitted!")
     }
-
 }

@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.kotlin_tracktic_theincredibles"
+    namespace = "com.example.kotlin_tracktic"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.kotlin_tracktic_theincredibles"
+        applicationId = "com.example.kotlin_tracktic"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
