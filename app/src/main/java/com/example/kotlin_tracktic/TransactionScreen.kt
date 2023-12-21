@@ -72,6 +72,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import androidx.compose.material3.DatePicker
+import androidx.compose.runtime.mutableLongStateOf
 
 data class ButtonData(val label: String, val isPressedState: MutableState<Boolean>)
 
@@ -88,7 +89,9 @@ fun TransactionScreen(
     var remarksValue by remember { mutableStateOf("") }
     var categoryValue by remember { mutableStateOf("") }
     var typeValue by remember { mutableStateOf("") }
-    var endDate by rememberSaveable { mutableStateOf(Date().time) }
+    var endDate by rememberSaveable { mutableStateOf(Date()) }
+    var endDateMillis by rememberSaveable { mutableStateOf(System.currentTimeMillis()) }
+
 
 
     val buttons = remember {
@@ -363,8 +366,11 @@ fun TransactionScreen(
 
                 // Date
                 Column(modifier = Modifier.padding(top = 10.dp)) {
-                    EndDateTextField { endDate = it }
+                    EndDateTextField { endDate ->
+                        endDateMillis = endDate // Store the selected date as milliseconds
                     }
+                }
+
 
 
                 // Remarks
@@ -402,7 +408,7 @@ fun TransactionScreen(
                             val transactionData = TransactionData(
                                 nominal = textFieldValue,
                                 category = categoryValue,
-                                date = Calendar.getInstance().time,
+                                date = endDate,
                                 description = remarksValue,
                                 type = typeValue
                             )
@@ -470,8 +476,7 @@ fun EndDateTextField(endDate: (Long) -> Unit) {
         state = datePickerState,
         shouldDisplay = shouldDisplay,
         onConfirmClicked = { selectedDateInMillis ->
-            selectedDate = selectedDateInMillis.toFormattedDateString()
-            endDate(selectedDateInMillis)
+            endDate(selectedDateInMillis) // Pass the Long value directly
         },
         dismissRequest = {
             shouldDisplay = false
