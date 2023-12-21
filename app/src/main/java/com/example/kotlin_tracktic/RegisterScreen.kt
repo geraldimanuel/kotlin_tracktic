@@ -25,11 +25,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -42,7 +44,6 @@ import com.google.firebase.auth.FirebaseAuth
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(navController: NavController) {
-
 
     var text by remember {
         mutableStateOf("")
@@ -88,7 +89,7 @@ fun RegisterScreen(navController: NavController) {
             .padding(horizontal = 50.dp)
     ) {
         Text(
-            text = "UNION v.2",
+            text = "TRACKTIC",
             style = TextStyle(
                 fontSize = 24.sp,
                 fontWeight = FontWeight.W800
@@ -202,7 +203,7 @@ fun RegisterScreen(navController: NavController) {
             modifier = Modifier.align(Alignment.End)
                 .fillMaxWidth()
         ) {
-            Text(text = "Sign Up With Gulugulu")
+            Text(text = "Sign Up")
         }
         Spacer(modifier = Modifier.height(10.dp))
         Button(
@@ -224,4 +225,10 @@ fun RegisterScreen(navController: NavController) {
         }
 
     }
+}
+
+@Composable
+@Preview
+fun RegisterScreenPreview() {
+    RegisterScreen(navController = NavController(LocalContext.current))
 }

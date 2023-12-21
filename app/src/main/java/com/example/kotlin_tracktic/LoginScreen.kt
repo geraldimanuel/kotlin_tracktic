@@ -71,7 +71,7 @@ fun LoginScreen(navController: NavController) {
             .padding(horizontal = 50.dp)
     ) {
         Text(
-            text = "UNION v.2",
+            text = "TRACKTIC",
             style = TextStyle(
                 fontSize = 24.sp,
                 fontWeight = FontWeight.W800
@@ -157,7 +157,7 @@ fun LoginScreen(navController: NavController) {
             modifier = Modifier.align(Alignment.End)
                 .fillMaxWidth()
         ) {
-            Text(text = "Sign In With Gulugulu")
+            Text(text = "Sign In")
         }
         Spacer(modifier = Modifier.height(10.dp))
         Button(
