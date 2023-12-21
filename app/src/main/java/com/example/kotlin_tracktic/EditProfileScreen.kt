@@ -47,6 +47,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.kotlin_tracktic_theincredibles.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -101,7 +102,7 @@ fun EditProfileScreen(navController: NavController, onBackClick: () -> Unit) {
 
             Column(modifier = Modifier.padding(top = 5.dp)) {
                 Image(
-                    painter = painterResource(id = R.drawable.chaeunwoo),
+                    painter = painterResource(id =  R.drawable.chaeunwoo),
 
                     contentDescription = "Profile Picture",
                     modifier = Modifier
