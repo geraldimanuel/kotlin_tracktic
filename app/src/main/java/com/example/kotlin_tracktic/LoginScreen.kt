@@ -149,19 +149,6 @@ fun LoginScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(10.dp))
         Button(
             onClick = {
-                navController.navigate(Screen.StatisticScreen.route)
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Red40
-            ),
-            modifier = Modifier.align(Alignment.End)
-                .fillMaxWidth()
-        ) {
-            Text(text = "Sign In")
-        }
-        Spacer(modifier = Modifier.height(10.dp))
-        Button(
-            onClick = {
                 navController.navigate(Screen.RegisterScreen.route)
             },
             colors = ButtonDefaults.buttonColors(
