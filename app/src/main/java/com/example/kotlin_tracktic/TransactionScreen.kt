@@ -63,7 +63,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.kotlin_tracktic.util.SharedViewModel
 import com.example.kotlin_tracktic.util.TransactionData
-import com.example.kotlin_tracktic_theincredibles.R
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import java.text.DateFormatSymbols

@@ -38,7 +38,6 @@ import androidx.navigation.NavController
 import com.example.kotlin_tracktic.ui.theme.Kotlin_trackticTheme
 import com.example.kotlin_tracktic.ui.theme.Purple40
 import com.example.kotlin_tracktic.util.SharedViewModel
-import com.example.kotlin_tracktic_theincredibles.R
 
 @Composable
 fun StatisticScreen(navController: NavController) {

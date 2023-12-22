@@ -11,7 +11,6 @@ import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.example.kotlin_tracktic.Screen
-import com.example.kotlin_tracktic_theincredibles.R
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth

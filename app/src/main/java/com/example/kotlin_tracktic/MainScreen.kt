@@ -40,7 +40,7 @@ import com.example.kotlin_tracktic.ui.theme.Purple40
 import com.example.kotlin_tracktic.ui.theme.Red40
 import com.example.kotlin_tracktic.util.SharedViewModel
 import com.example.kotlin_tracktic.util.TransactionData
-import com.example.kotlin_tracktic_theincredibles.R
+import com.theincredibles.tracktic.R
 import com.google.firebase.auth.FirebaseAuth
 import java.util.Date
 

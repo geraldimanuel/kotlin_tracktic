@@ -55,7 +55,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.example.kotlin_tracktic.util.SharedViewModel
-import com.example.kotlin_tracktic_theincredibles.R
 import com.google.firebase.auth.FirebaseAuth
 
 @OptIn(ExperimentalMaterial3Api::class)
